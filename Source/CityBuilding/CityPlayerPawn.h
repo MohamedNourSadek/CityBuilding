@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "CityPlayerPawn.generated.h"
 
 UCLASS()
@@ -28,8 +29,18 @@ public:
 
 	void OnMoveXPressed(float value);
 	void OnMoveYPressed(float value);
-	FVector2D Input;
+	void OnWheel(float value);
+	void OnMouseX(float value);
+	void OnMiddleMousePressed();
+	void OnMiddleMouseReleased();
 
-	UPROPERTY(EditAnywhere)
-	float MovementSpeed = 1;
+
+	FVector2D MovementInput;
+	bool MiddleMouseInput;
+
+	UPROPERTY(EditAnywhere)	float MovementSpeed = 1;
+	UPROPERTY(EditAnywhere) float ZoomSpeed = 1;
+	UPROPERTY(EditAnywhere) float RotationSpeed = 1;
+	UPROPERTY(EditAnywhere) FVector2D ZoomLimits;
+	UPROPERTY(EditAnywhere) USpringArmComponent* mySprinComponent;
 };
