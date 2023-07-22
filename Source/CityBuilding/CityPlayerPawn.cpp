@@ -1,53 +1,34 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "CityPlayerPawn.h"
 
-#include "Kismet/KismetMathLibrary.h"
-
-
-// Sets default values
+#pragma region Unreal Delegates
 ACityPlayerPawn::ACityPlayerPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
-
-// Called when the game starts or when spawned
 void ACityPlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	mySprinComponent = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
+	Initialize();
 }			
-
-// Called every frame
 void ACityPlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	if(MovementInput.X != 0)
-	{
-		const FVector newLocation = GetActorLocation() + (GetActorRightVector() * MovementInput.X * MovementSpeed * mySprinComponent->TargetArmLength);
-		SetActorLocation(newLocation);
-	}
-
-	if(MovementInput.Y != 0)
-	{
-		float angle = 90 - (FMath::RadiansToDegrees(FMath::Acos(GetActorForwardVector().GetSafeNormal().Dot(FVector(0,0,1).GetSafeNormal()))));
-		FVector upVector = FMath::Sin(FMath::DegreesToRadians(-angle)) * FVector(0, 0, 1);
-		FVector projectedForward = GetActorForwardVector() + upVector;
-
-		FVector newLocation = GetActorLocation() + (projectedForward * MovementInput.Y * MovementSpeed * mySprinComponent->TargetArmLength);
-		SetActorLocation(newLocation);
-	}
+	Move();
 }
-
-// Called to bind functionality to input
 void ACityPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	AssignInputCallBacks(PlayerInputComponent);
+}
+#pragma endregion
 
+#pragma region Setup Functions
+void ACityPlayerPawn::Initialize()
+{
+	mySprinComponent = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
+}
+void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent)
+{
 	PlayerInputComponent->BindAxis("Move_X", this, &ACityPlayerPawn::OnMoveXPressed);
 	PlayerInputComponent->BindAxis("Move_Y", this, &ACityPlayerPawn::OnMoveYPressed);
 	PlayerInputComponent->BindAxis("Wheel", this, &ACityPlayerPawn::OnWheel);
@@ -55,29 +36,34 @@ void ACityPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	PlayerInputComponent->BindAction("MiddleMouse", IE_Pressed, this, &ACityPlayerPawn::OnMiddleMousePressed);
 	PlayerInputComponent->BindAction("MiddleMouse", IE_Released, this, &ACityPlayerPawn::OnMiddleMouseReleased);
 }
+#pragma endregion
 
-void ACityPlayerPawn::OnMoveXPressed(float value)
+#pragma region Gameplay Functions
+void ACityPlayerPawn::Move()
 {
-	MovementInput.X = value;
-}
-
-void ACityPlayerPawn::OnMoveYPressed(float value)
-{
-	MovementInput.Y = value;
-}
-
-void ACityPlayerPawn::OnWheel(float value)
-{
-	if(value != 0)
+	if (MovementInput.X != 0)
 	{
-		float increment = (-value * ZoomSpeed);
+		const FVector newLocation = GetActorLocation() + (GetActorRightVector() * MovementInput.X * MovementSpeed * mySprinComponent->TargetArmLength);
+		SetActorLocation(newLocation);
+	}
+	if (MovementInput.Y != 0)
+	{
+		FVector newLocation = GetActorLocation() + (GetProjectedForward() * MovementInput.Y * MovementSpeed * mySprinComponent->TargetArmLength);
+		SetActorLocation(newLocation);
+	}
+}
+void ACityPlayerPawn::Zoom(float delta)
+{
+	if(delta != 0)
+	{
+		float increment = (-delta * ZoomSpeed);
 		float finalValue = mySprinComponent->TargetArmLength + increment;
 
 		if (finalValue > ZoomLimits.Y)
 		{
 			mySprinComponent->TargetArmLength = ZoomLimits.Y;
 		}
-		else if(finalValue < ZoomLimits.X )
+		else if (finalValue < ZoomLimits.X)
 		{
 			mySprinComponent->TargetArmLength = ZoomLimits.X;
 		}
@@ -86,29 +72,50 @@ void ACityPlayerPawn::OnWheel(float value)
 			mySprinComponent->TargetArmLength = finalValue;
 		}
 	}
-
-
 }
-
-void ACityPlayerPawn::OnMouseX(float value)
+void ACityPlayerPawn::Rotate(float delta)
 {
-	if(MiddleMouseInput && value != 0)
+	if(delta != 0)
 	{
-		FRotator angle(0, value * RotationSpeed, 0);
+		FRotator angle(0, delta * RotationSpeed, 0);
 		AddActorWorldRotation(angle);
 	}
 }
 
 
+FVector ACityPlayerPawn::GetProjectedForward()
+{
+	float angle = 90 - (FMath::RadiansToDegrees(FMath::Acos(GetActorForwardVector().GetSafeNormal().Dot(FVector(0, 0, 1).GetSafeNormal()))));
+	FVector upVector = FMath::Sin(FMath::DegreesToRadians(-angle)) * FVector(0, 0, 1);
+
+	return GetActorForwardVector() + upVector;
+}
+#pragma endregion
+
+#pragma region Input Callbacks
+void ACityPlayerPawn::OnMoveXPressed(float value)
+{
+	MovementInput.X = value;
+}
+void ACityPlayerPawn::OnMoveYPressed(float value)
+{
+	MovementInput.Y = value;
+}
+void ACityPlayerPawn::OnWheel(float value)
+{
+	Zoom(value);
+}
+void ACityPlayerPawn::OnMouseX(float value)
+{
+	if(MiddleMouseInput)
+		Rotate(value);
+}
 void ACityPlayerPawn::OnMiddleMousePressed()
 {
 	MiddleMouseInput = true;
 }
-
 void ACityPlayerPawn::OnMiddleMouseReleased()
 {
 	MiddleMouseInput = false;
 }
-
-
-
+#pragma endregion

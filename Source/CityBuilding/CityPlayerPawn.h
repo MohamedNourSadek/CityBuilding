@@ -12,35 +12,54 @@ class CITYBUILDING_API ACityPlayerPawn : public APawn
 {
 	GENERATED_BODY()
 
+#pragma region Unreal Delegates
 public:
-	// Sets default values for this pawn's properties
 	ACityPlayerPawn();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+#pragma endregion
 
+#pragma region  Designer Variables
+	UPROPERTY(EditAnywhere) FVector2D ZoomLimits;
+	UPROPERTY(EditAnywhere)	float MovementSpeed = 1;
+	UPROPERTY(EditAnywhere) float ZoomSpeed = 1;
+	UPROPERTY(EditAnywhere) float RotationSpeed = 1;
+#pragma endregion
+
+#pragma region Setup Functions
+	void Initialize();
+	void AssignInputCallBacks(UInputComponent* PlayerInputComponent);
+#pragma endregion
+
+#pragma region Gameplay Functions
+	void Move();
+	void Zoom(float delta);
+	void Rotate(float delta);
+	FVector GetProjectedForward();
+#pragma  endregion
+
+
+#pragma region Input Callbacks
 	void OnMoveXPressed(float value);
 	void OnMoveYPressed(float value);
 	void OnWheel(float value);
 	void OnMouseX(float value);
 	void OnMiddleMousePressed();
 	void OnMiddleMouseReleased();
+#pragma endregion
 
-
+#pragma region Private Variables 
+private:
 	FVector2D MovementInput;
 	bool MiddleMouseInput;
+	USpringArmComponent* mySprinComponent;
+#pragma endregion
 
-	UPROPERTY(EditAnywhere)	float MovementSpeed = 1;
-	UPROPERTY(EditAnywhere) float ZoomSpeed = 1;
-	UPROPERTY(EditAnywhere) float RotationSpeed = 1;
-	UPROPERTY(EditAnywhere) FVector2D ZoomLimits;
-	UPROPERTY(EditAnywhere) USpringArmComponent* mySprinComponent;
+
+
 };
