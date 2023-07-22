@@ -26,6 +26,7 @@ void ACityPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 void ACityPlayerPawn::Initialize()
 {
 	mySprinComponent = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
+	myController = Cast<APlayerController>(GetController());
 }
 void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent)
 {
@@ -33,6 +34,7 @@ void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis("Move_Y", this, &ACityPlayerPawn::OnMoveYPressed);
 	PlayerInputComponent->BindAxis("Wheel", this, &ACityPlayerPawn::OnWheel);
 	PlayerInputComponent->BindAxis("MouseX", this, &ACityPlayerPawn::OnMouseX);
+	PlayerInputComponent->BindAxis("MouseY", this, &ACityPlayerPawn::OnMouseY);
 	PlayerInputComponent->BindAction("MiddleMouse", IE_Pressed, this, &ACityPlayerPawn::OnMiddleMousePressed);
 	PlayerInputComponent->BindAction("MiddleMouse", IE_Released, this, &ACityPlayerPawn::OnMiddleMouseReleased);
 }
@@ -41,14 +43,14 @@ void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent
 #pragma region Gameplay Functions
 void ACityPlayerPawn::Move()
 {
-	if (MovementInput.X != 0)
+	if (movementInput.X != 0)
 	{
-		const FVector newLocation = GetActorLocation() + (GetActorRightVector() * MovementInput.X * MovementSpeed * mySprinComponent->TargetArmLength);
+		const FVector newLocation = GetActorLocation() + (GetActorRightVector() * movementInput.X * MovementSpeed * mySprinComponent->TargetArmLength);
 		SetActorLocation(newLocation);
 	}
-	if (MovementInput.Y != 0)
+	if (movementInput.Y != 0)
 	{
-		FVector newLocation = GetActorLocation() + (GetProjectedForward() * MovementInput.Y * MovementSpeed * mySprinComponent->TargetArmLength);
+		FVector newLocation = GetActorLocation() + (GetProjectedForward() * movementInput.Y * MovementSpeed * mySprinComponent->TargetArmLength);
 		SetActorLocation(newLocation);
 	}
 }
@@ -73,7 +75,7 @@ void ACityPlayerPawn::Zoom(float delta)
 		}
 	}
 }
-void ACityPlayerPawn::Rotate(float delta)
+void ACityPlayerPawn::RotateX(float delta)
 {
 	if(delta != 0)
 	{
@@ -81,25 +83,54 @@ void ACityPlayerPawn::Rotate(float delta)
 		AddActorWorldRotation(angle);
 	}
 }
+void ACityPlayerPawn::RotateY(float delta)
+{
+	if (delta != 0)
+	{
+		float angle = GetAngleWithHorizontal();
+
+		bool outOfBoundriesPositive = angle > RotationYLimits.Y;
+		bool outOfBoundriesNegative = angle < RotationYLimits.X;
+		bool increasing = delta < 0;
+		bool decreasing = delta > 0;
+
+		if(!(outOfBoundriesPositive && increasing) && !(outOfBoundriesNegative && decreasing))
+			AddActorLocalRotation(FRotator(delta * RotationSpeed, 0, 0));
+	}
+}
+void ACityPlayerPawn::ShowMouse(bool state)
+{
+	myController->bShowMouseCursor = state;
+	myController->bEnableClickEvents = state;
+	myController->bEnableMouseOverEvents = state;
+}
 
 
+#pragma endregion
+
+#pragma  region Vector Math
 FVector ACityPlayerPawn::GetProjectedForward()
 {
-	float angle = 90 - (FMath::RadiansToDegrees(FMath::Acos(GetActorForwardVector().GetSafeNormal().Dot(FVector(0, 0, 1).GetSafeNormal()))));
-	FVector upVector = FMath::Sin(FMath::DegreesToRadians(-angle)) * FVector(0, 0, 1);
+	float angle = GetAngleWithHorizontal();
+	FVector upVector = FMath::Sin(FMath::DegreesToRadians(angle)) * FVector(0, 0, 1);
 
 	return GetActorForwardVector() + upVector;
 }
+float ACityPlayerPawn::GetAngleWithHorizontal()
+{
+	return - (90 - (FMath::RadiansToDegrees(FMath::Acos(GetActorForwardVector().GetSafeNormal().Dot(FVector(0, 0, 1).GetSafeNormal())))));
+}
+
 #pragma endregion
 
 #pragma region Input Callbacks
 void ACityPlayerPawn::OnMoveXPressed(float value)
 {
-	MovementInput.X = value;
+	movementInput.X = value;
 }
 void ACityPlayerPawn::OnMoveYPressed(float value)
 {
-	MovementInput.Y = value;
+	movementInput.Y = value;
 }
 void ACityPlayerPawn::OnWheel(float value)
 {
@@ -107,15 +138,25 @@ void ACityPlayerPawn::OnWheel(float value)
 }
 void ACityPlayerPawn::OnMouseX(float value)
 {
-	if(MiddleMouseInput)
-		Rotate(value);
+	if(middleMouseInput)
+		RotateX(value);
 }
+void ACityPlayerPawn::OnMouseY(float value)
+{
+	if (middleMouseInput)
+		RotateY(value);
+}
+
 void ACityPlayerPawn::OnMiddleMousePressed()
 {
-	MiddleMouseInput = true;
+	middleMouseInput = true;
+	ShowMouse(false);
+	myController->GetMousePosition(lastKnownMousePosition.X, lastKnownMousePosition.Y);
 }
 void ACityPlayerPawn::OnMiddleMouseReleased()
 {
-	MiddleMouseInput = false;
+	middleMouseInput = false;
+	ShowMouse(true);
+	myController->SetMouseLocation(lastKnownMousePosition.X, lastKnownMousePosition.Y);
 }
 #pragma endregion

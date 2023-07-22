@@ -26,6 +26,7 @@ public:
 
 #pragma region  Designer Variables
 	UPROPERTY(EditAnywhere) FVector2D ZoomLimits;
+	UPROPERTY(EditAnywhere) FVector2D RotationYLimits;
 	UPROPERTY(EditAnywhere)	float MovementSpeed = 1;
 	UPROPERTY(EditAnywhere) float ZoomSpeed = 1;
 	UPROPERTY(EditAnywhere) float RotationSpeed = 1;
@@ -39,8 +40,13 @@ public:
 #pragma region Gameplay Functions
 	void Move();
 	void Zoom(float delta);
-	void Rotate(float delta);
+	void RotateX(float delta);
+	void RotateY(float delta);
+	void ShowMouse(bool state);
+#pragma region Vector Math
 	FVector GetProjectedForward();
+	float GetAngleWithHorizontal();
+#pragma endregion
 #pragma  endregion
 
 
@@ -49,15 +55,18 @@ public:
 	void OnMoveYPressed(float value);
 	void OnWheel(float value);
 	void OnMouseX(float value);
+	void OnMouseY(float value);
 	void OnMiddleMousePressed();
 	void OnMiddleMouseReleased();
 #pragma endregion
 
 #pragma region Private Variables 
 private:
-	FVector2D MovementInput;
-	bool MiddleMouseInput;
 	USpringArmComponent* mySprinComponent;
+	APlayerController* myController;
+	FVector2D movementInput;
+	bool middleMouseInput;
+	FVector2D lastKnownMousePosition;
 #pragma endregion
 
 
