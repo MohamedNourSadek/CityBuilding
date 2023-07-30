@@ -6,7 +6,7 @@ ACityPlayerPawn::ACityPlayerPawn()
 	PrimaryActorTick.bCanEverTick = true;
 }
 void ACityPlayerPawn::BeginPlay()
-{
+{ 
 	Super::BeginPlay();
 	Initialize();
 }			
@@ -27,6 +27,7 @@ void ACityPlayerPawn::Initialize()
 {
 	mySprinComponent = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
 	myController = Cast<APlayerController>(GetController());
+	ShowMouse(true);
 }
 void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent)
 {
