@@ -20,8 +20,18 @@ void AGridCreator::Tick(float DeltaTime)
 
 }
 
-void AGridCreator::Button()
+void AGridCreator::CreateGrid()
 {
 	UE_LOG(LogTemp, Display, TEXT("Test"));
+
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			FVector position = GetActorLocation() + FVector(i * (100 + spacing), j * (100 + spacing), 0);
+			GetWorld()->SpawnActor<AActor>(prototype, position, GetActorRotation());
+		}
+	}
+
 }
 

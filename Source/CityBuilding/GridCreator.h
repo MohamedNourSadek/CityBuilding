@@ -26,9 +26,12 @@ public:
 	UPROPERTY(EditAnywhere)
 		int height = 5;
 	UPROPERTY(EditAnywhere)
+		int spacing = 20;
+	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> prototype;
 
 
-	UFUNCTION(BlueprintCallable, CallInEditor)
-		void Button();
+
+	UFUNCTION(CallInEditor)
+		void CreateGrid();
 };
