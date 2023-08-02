@@ -105,7 +105,27 @@ void ACityPlayerPawn::ShowMouse(bool state)
 	myController->bEnableClickEvents = state;
 	myController->bEnableMouseOverEvents = state;
 }
+void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
+{
+	FVector2d mousePosition;
+	FVector2d screenSize;
+	
+	myController->GetMousePosition(mousePosition.X, mousePosition.Y);
+	GEngine->GameViewport->GetViewportSize(screenSize);
 
+	UE_LOG(LogTemp, Display, TEXT("%f"), mousePosition.X);
+	UE_LOG(LogTemp, Display, TEXT("%f"), mousePosition.Y);
+
+	if (mousePosition.X < 10 || mousePosition.X > screenSize.X -10 )
+	{
+		myController->SetMouseLocation(screenSize.X/2.0, screenSize.Y / 2.0);
+	}
+
+	if (mousePosition.Y < 10 || mousePosition.Y > screenSize.Y-10)
+	{
+		myController->SetMouseLocation(screenSize.X / 2.0, screenSize.Y / 2.0);
+	}
+}
 
 #pragma endregion
 
@@ -139,13 +159,19 @@ void ACityPlayerPawn::OnWheel(float value)
 }
 void ACityPlayerPawn::OnMouseX(float value)
 {
-	if(middleMouseInput)
+	if (middleMouseInput)
+	{
 		RotateX(value);
+		ResetMousePositionOnReachingBorder();
+	}
 }
 void ACityPlayerPawn::OnMouseY(float value)
 {
 	if (middleMouseInput)
+	{
 		RotateY(value);
+		ResetMousePositionOnReachingBorder();
+	}
 }
 
 void ACityPlayerPawn::OnMiddleMousePressed()

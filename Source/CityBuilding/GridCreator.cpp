@@ -28,8 +28,10 @@ void AGridCreator::CreateGrid()
 	{
 		for (int j = 0; j < height; j++)
 		{
-			FVector position = GetActorLocation() + FVector(i * (100 + spacing), j * (100 + spacing), 0);
-			GetWorld()->SpawnActor<AActor>(prototype, position, GetActorRotation());
+			FVector position = GetActorLocation() + FVector(i * ((unitSize * 100) + spacing), j * ((unitSize * 100) + spacing), 0);
+			AActor* myGridUnit = GetWorld()->SpawnActor<AActor>(prototype, position, GetActorRotation());
+
+			myGridUnit->SetActorScale3D(FVector(unitSize, unitSize, 0.1));
 		}
 	}
 

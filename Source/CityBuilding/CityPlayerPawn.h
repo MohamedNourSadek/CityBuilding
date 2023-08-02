@@ -43,6 +43,7 @@ public:
 	void RotateX(float delta);
 	void RotateY(float delta);
 	void ShowMouse(bool state);
+	void ResetMousePositionOnReachingBorder();
 #pragma region Vector Math
 	FVector GetProjectedForward();
 	float GetAngleWithHorizontal();

@@ -29,6 +29,9 @@ public:
 		int spacing = 20;
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<AActor> prototype;
+	UPROPERTY(EditAnywhere)
+		int unitSize = 1;
+
 
 
 
