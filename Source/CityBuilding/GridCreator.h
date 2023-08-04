@@ -31,8 +31,8 @@ public:
 		TSubclassOf<AActor> prototype;
 	UPROPERTY(EditAnywhere)
 		int unitSize = 1;
-
-
+	UPROPERTY(EditAnywhere)
+		float depth = 0.1;
 
 
 	UFUNCTION(CallInEditor)

@@ -31,7 +31,7 @@ void AGridCreator::CreateGrid()
 			FVector position = GetActorLocation() + FVector(i * ((unitSize * 100) + spacing), j * ((unitSize * 100) + spacing), 0);
 			AActor* myGridUnit = GetWorld()->SpawnActor<AActor>(prototype, position, GetActorRotation());
 
-			myGridUnit->SetActorScale3D(FVector(unitSize, unitSize, 0.1));
+			myGridUnit->SetActorScale3D(FVector(unitSize, unitSize, depth));
 		}
 	}
 
