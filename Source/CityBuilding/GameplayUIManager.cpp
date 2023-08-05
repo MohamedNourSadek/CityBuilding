@@ -3,16 +3,15 @@
 
 #include "GameplayUIManager.h"
 
-bool UGameplayUIManager::Initialize()
+
+void UGameplayUIManager::NativeConstruct()
 {
-	Super::Initialize();
-
-	BuildButton->OnClicked.AddDynamic(this, &UGameplayUIManager::OnBuildButtonClick);
-
-	return true;
+	Super::Construct();
+	BuildButton->OnClicked.AddUniqueDynamic(this, &UGameplayUIManager::OnBuildButtonClick);
 }
 
-void UGameplayUIManager::OnBuildButtonClick()
+
+void UGameplayUIManager::OnBuildButtonClick() 
 {
 	UE_LOG(LogTemp, Error, TEXT("On Build Pressed"));
 }

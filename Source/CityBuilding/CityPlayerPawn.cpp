@@ -113,9 +113,6 @@ void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
 	myController->GetMousePosition(mousePosition.X, mousePosition.Y);
 	GEngine->GameViewport->GetViewportSize(screenSize);
 
-	UE_LOG(LogTemp, Display, TEXT("%f"), mousePosition.X);
-	UE_LOG(LogTemp, Display, TEXT("%f"), mousePosition.Y);
-
 	if (mousePosition.X < 10 || mousePosition.X > screenSize.X -10 )
 	{
 		myController->SetMouseLocation(screenSize.X/2.0, screenSize.Y / 2.0);

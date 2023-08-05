@@ -15,12 +15,11 @@ class CITYBUILDING_API UGameplayUIManager : public UUserWidget
 {
 	GENERATED_BODY()
 
-	virtual bool Initialize() override;
+	virtual void NativeConstruct() override;
 
-	UPROPERTY(meta = (BindWidget)) UButton* BuildButton;
 	UPROPERTY(EditAnywhere) TArray<AActor*> gridCubes;
+	UPROPERTY(meta = (BindWidget)) UButton* BuildButton;
 
-
+	UFUNCTION()
 	void OnBuildButtonClick();
-
 };

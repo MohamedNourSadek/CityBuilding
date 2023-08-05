@@ -21,10 +21,4 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		TArray<AActor*> gridCubes;
-
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<UGameplayUIManager> gameplayClass;
-
-	UGameplayUIManager* GameplayUIManager;
-
 };
