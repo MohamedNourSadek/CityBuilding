@@ -16,6 +16,12 @@ AGameManager::AGameManager()
 void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
+
+	gameplayUIManager = CreateWidget<UGameplayUIManager>(GetGameInstance(), gameplayUIclass);
+	gameplayUIManager->AddToViewport();
+	gridsParent->GetAttachedActors(children);
+
+	SetGridState(false);
 }
 
 void AGameManager::Tick(float DeltaTime)
@@ -24,3 +30,10 @@ void AGameManager::Tick(float DeltaTime)
 
 }
 
+void AGameManager::SetGridState(bool visible)
+{
+	for (AActor* cube : children)
+	{
+		cube->SetActorHiddenInGame(!visible);
+	}
+}

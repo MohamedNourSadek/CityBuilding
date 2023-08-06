@@ -17,9 +17,25 @@ class CITYBUILDING_API UGameplayUIManager : public UUserWidget
 
 	virtual void NativeConstruct() override;
 
-	UPROPERTY(EditAnywhere) TArray<AActor*> gridCubes;
+	UPROPERTY(meta = (BindWidget)) UPanelWidget* GameplayUI;
+	UPROPERTY(meta = (BindWidget)) UPanelWidget* BuildUI;
+	UPROPERTY(meta = (BindWidget)) UPanelWidget* Building;
 	UPROPERTY(meta = (BindWidget)) UButton* BuildButton;
+	UPROPERTY(meta = (BindWidget)) UButton* HouseButton;
+	UPROPERTY(meta = (BindWidget)) UButton* BackButton;
+	UPROPERTY(meta = (BindWidget)) UButton* CancelBuilding;
+
+
 
 	UFUNCTION()
 	void OnBuildButtonClick();
+
+	UFUNCTION()
+	void OnBackButtonClick();
+
+	UFUNCTION()
+	void OnHouseButtonClick();
+
+	UFUNCTION()
+	void OnCancelBuilding();
 };
