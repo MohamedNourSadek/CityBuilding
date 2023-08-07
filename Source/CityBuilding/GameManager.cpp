@@ -4,9 +4,11 @@
 #include "GameManager.h"
 
 #include "CityBuildingGameModeBase.h"
+#include "CityPlayerPawn.h"
 #include "GameplayUIManager.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 AGameManager::AGameManager()
@@ -22,6 +24,9 @@ void AGameManager::BeginPlay()
 	gameplayUIManager = CreateWidget<UGameplayUIManager>(GetGameInstance(), gameplayUIclass);
 	gameplayUIManager->AddToViewport();
 
-	Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameManager = this;
+	ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	gameMode->GameManager = this;
+
+	mainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 }
 

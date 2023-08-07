@@ -39,6 +39,8 @@ void UGameplayUIManager::OnHouseButtonClick()
 
 	if(GameManager == nullptr)
 		GetGameManager();
+
+	GameManager->inBuildingMode = true;
 }
 
 void UGameplayUIManager::OnCancelBuilding()
@@ -48,6 +50,8 @@ void UGameplayUIManager::OnCancelBuilding()
 
 	if (GameManager == nullptr)
 		GetGameManager();
+
+	GameManager->inBuildingMode = false;
 }
 
 void UGameplayUIManager::GetGameManager()

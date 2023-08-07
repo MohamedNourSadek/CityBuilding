@@ -1,5 +1,9 @@
 #include "CityPlayerPawn.h"
 
+#include "CityBuildingGameModeBase.h"
+#include "GameManager.h"
+#include "Kismet/GameplayStatics.h"
+
 #pragma region Unreal Delegates
 ACityPlayerPawn::ACityPlayerPawn()
 {
@@ -14,6 +18,7 @@ void ACityPlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	Move();
+	HandleBuildingMode();
 }
 void ACityPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -27,6 +32,7 @@ void ACityPlayerPawn::Initialize()
 {
 	mySprinComponent = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
 	myController = Cast<APlayerController>(GetController());
+
 	ShowMouse(true);
 }
 void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent)
@@ -123,8 +129,42 @@ void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
 		myController->SetMouseLocation(screenSize.X / 2.0, screenSize.Y / 2.0);
 	}
 }
+void ACityPlayerPawn::HandleBuildingMode()
+{
+	if (gameManager != nullptr)
+	{
+		if(gameManager->inBuildingMode)
+		{
+			FHitResult hit;
 
-#pragma endregion
+			FVector startPoint = GetActorLocation();
+			FVector endPoint = GetActorForwardVector() * 1000;
+
+			FCollisionQueryParams query;
+			query.AddIgnoredActor(this);
+
+			GetWorld()->LineTraceSingleByChannel(hit, startPoint, endPoint, BuildingTraceChannelProperty, query);
+
+			DrawDebugLine(GetWorld(), startPoint, endPoint, hit.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 10.0f);
+
+			UE_LOG(LogTemp, Log, TEXT("Tracing line: %s to %s"), *startPoint.ToCompactString(), *endPoint.ToCompactString());
+
+			if (hit.bBlockingHit && IsValid(hit.GetActor()))
+			{
+				UE_LOG(LogTemp, Log, TEXT("Trace hit actor: %s"), *hit.GetActor()->GetName());
+			}
+			else {
+				UE_LOG(LogTemp, Log, TEXT("No Actors were hit"));
+			}
+		}
+	}
+	else
+	{
+		gameManager = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameManager;
+	}
+}
+
+#pragma endregion 
 
 #pragma  region Vector Math
 FVector ACityPlayerPawn::GetProjectedForward()
@@ -138,7 +178,6 @@ float ACityPlayerPawn::GetAngleWithHorizontal()
 {
 	return - (90 - (FMath::RadiansToDegrees(FMath::Acos(GetActorForwardVector().GetSafeNormal().Dot(FVector(0, 0, 1).GetSafeNormal())))));
 }
-
 #pragma endregion
 
 #pragma region Input Callbacks
@@ -170,7 +209,6 @@ void ACityPlayerPawn::OnMouseY(float value)
 		ResetMousePositionOnReachingBorder();
 	}
 }
-
 void ACityPlayerPawn::OnMiddleMousePressed()
 {
 	middleMouseInput = true;

@@ -7,6 +7,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "CityPlayerPawn.generated.h"
 
+class AGameManager;
+
 UCLASS()
 class CITYBUILDING_API ACityPlayerPawn : public APawn
 {
@@ -30,6 +32,9 @@ public:
 	UPROPERTY(EditAnywhere)	float MovementSpeed = 1;
 	UPROPERTY(EditAnywhere) float ZoomSpeed = 1;
 	UPROPERTY(EditAnywhere) float RotationSpeed = 1;
+
+	UPROPERTY(EditAnywhere, Category = "Building") TEnumAsByte<ECollisionChannel> BuildingTraceChannelProperty = ECC_WorldStatic;
+
 #pragma endregion
 
 #pragma region Setup Functions
@@ -44,6 +49,7 @@ public:
 	void RotateY(float delta);
 	void ShowMouse(bool state);
 	void ResetMousePositionOnReachingBorder();
+	void HandleBuildingMode();
 #pragma region Vector Math
 	FVector GetProjectedForward();
 	float GetAngleWithHorizontal();
@@ -68,6 +74,7 @@ private:
 	FVector2D movementInput;
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
+	AGameManager* gameManager;
 #pragma endregion
 
 
