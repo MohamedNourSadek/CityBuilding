@@ -2,7 +2,10 @@
 
 
 #include "GameplayUIManager.h"
+
+#include "CityBuildingGameModeBase.h"
 #include "GameManager.h"
+#include "Kismet/GameplayStatics.h"
 
 void UGameplayUIManager::NativeConstruct()
 {
@@ -13,7 +16,7 @@ void UGameplayUIManager::NativeConstruct()
 	HouseButton->OnClicked.AddUniqueDynamic(this, &UGameplayUIManager::OnHouseButtonClick);
 	CancelBuilding->OnClicked.AddUniqueDynamic(this, &UGameplayUIManager::OnCancelBuilding);
 
-
+	GetGameManager();
 }
 
 
@@ -33,12 +36,23 @@ void UGameplayUIManager::OnHouseButtonClick()
 {
 	BuildUI->SetVisibility(ESlateVisibility::Hidden);
 	Building->SetVisibility(ESlateVisibility::Visible);
+
+	if(GameManager == nullptr)
+		GetGameManager();
 }
 
 void UGameplayUIManager::OnCancelBuilding()
 {
 	Building->SetVisibility(ESlateVisibility::Hidden);
 	BuildUI->SetVisibility(ESlateVisibility::Visible);
+
+	if (GameManager == nullptr)
+		GetGameManager();
+}
+
+void UGameplayUIManager::GetGameManager()
+{
+	GameManager = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameManager;
 }
 
 

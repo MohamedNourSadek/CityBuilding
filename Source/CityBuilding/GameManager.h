@@ -19,13 +19,6 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere) AActor* gridsParent;
 	UPROPERTY(EditAnywhere) TSubclassOf<class UGameplayUIManager> gameplayUIclass;
-
-	TArray<AActor*> children;
 	UGameplayUIManager* gameplayUIManager;
-
-
-	void SetGridState(bool Visible);
-
 };

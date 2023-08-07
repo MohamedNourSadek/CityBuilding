@@ -3,8 +3,10 @@
 
 #include "GameManager.h"
 
+#include "CityBuildingGameModeBase.h"
 #include "GameplayUIManager.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGameManager::AGameManager()
@@ -19,21 +21,7 @@ void AGameManager::BeginPlay()
 
 	gameplayUIManager = CreateWidget<UGameplayUIManager>(GetGameInstance(), gameplayUIclass);
 	gameplayUIManager->AddToViewport();
-	gridsParent->GetAttachedActors(children);
 
-	SetGridState(false);
+	Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameManager = this;
 }
 
-void AGameManager::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-void AGameManager::SetGridState(bool visible)
-{
-	for (AActor* cube : children)
-	{
-		cube->SetActorHiddenInGame(!visible);
-	}
-}

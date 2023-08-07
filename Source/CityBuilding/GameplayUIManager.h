@@ -7,9 +7,8 @@
 #include "Components/Button.h"
 #include "GameplayUIManager.generated.h"
 
-/**
- * 
- */
+class AGameManager;
+
 UCLASS()
 class CITYBUILDING_API UGameplayUIManager : public UUserWidget
 {
@@ -25,7 +24,10 @@ class CITYBUILDING_API UGameplayUIManager : public UUserWidget
 	UPROPERTY(meta = (BindWidget)) UButton* BackButton;
 	UPROPERTY(meta = (BindWidget)) UButton* CancelBuilding;
 
+	AGameManager* GameManager;
 
+
+	void GetGameManager();
 
 	UFUNCTION()
 	void OnBuildButtonClick();

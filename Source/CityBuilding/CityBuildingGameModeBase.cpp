@@ -3,3 +3,8 @@
 
 #include "CityBuildingGameModeBase.h"
 
+
+void ACityBuildingGameModeBase::BeginPlay()
+{
+
+}
