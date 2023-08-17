@@ -17,8 +17,9 @@ void UGameplayUIManager::NativeConstruct()
 	CancelBuilding->OnClicked.AddUniqueDynamic(this, &UGameplayUIManager::OnCancelBuilding);
 
 	GetGameManager();
-}
 
+	Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayUIManager = this;
+}
 
 void UGameplayUIManager::OnBuildButtonClick() 
 {

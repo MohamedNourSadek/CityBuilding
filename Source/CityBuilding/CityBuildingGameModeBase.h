@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayUIManager.h"
 #include "GameFramework/GameModeBase.h"
 #include "CityBuildingGameModeBase.generated.h"
 
@@ -16,4 +17,5 @@ class CITYBUILDING_API ACityBuildingGameModeBase : public AGameModeBase
 
 public:
 	AGameManager* GameManager;
+	UGameplayUIManager* GameplayUIManager;
 };

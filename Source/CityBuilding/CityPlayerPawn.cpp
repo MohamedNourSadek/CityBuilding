@@ -42,8 +42,10 @@ void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis("Wheel", this, &ACityPlayerPawn::OnWheel);
 	PlayerInputComponent->BindAxis("MouseX", this, &ACityPlayerPawn::OnMouseX);
 	PlayerInputComponent->BindAxis("MouseY", this, &ACityPlayerPawn::OnMouseY);
+	PlayerInputComponent->BindAction("LeftMouse", IE_Pressed, this, &ACityPlayerPawn::OnLeftMousePressed);
 	PlayerInputComponent->BindAction("MiddleMouse", IE_Pressed, this, &ACityPlayerPawn::OnMiddleMousePressed);
 	PlayerInputComponent->BindAction("MiddleMouse", IE_Released, this, &ACityPlayerPawn::OnMiddleMouseReleased);
+	PlayerInputComponent->BindAction("Cancel", IE_Pressed, this, &ACityPlayerPawn::OnCancelPressed);
 }
 #pragma endregion
 
@@ -136,25 +138,28 @@ void ACityPlayerPawn::HandleBuildingMode()
 		if(gameManager->inBuildingMode)
 		{
 			FHitResult hit;
-
-			FVector startPoint = GetActorLocation();
-			FVector endPoint = GetActorForwardVector() * 1000;
-
-			FCollisionQueryParams query;
-			query.AddIgnoredActor(this);
-
-			GetWorld()->LineTraceSingleByChannel(hit, startPoint, endPoint, BuildingTraceChannelProperty, query);
-
-			DrawDebugLine(GetWorld(), startPoint, endPoint, hit.bBlockingHit ? FColor::Blue : FColor::Red, false, 5.0f, 0, 10.0f);
-
-			UE_LOG(LogTemp, Log, TEXT("Tracing line: %s to %s"), *startPoint.ToCompactString(), *endPoint.ToCompactString());
+			Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_WorldStatic, false, hit);
 
 			if (hit.bBlockingHit && IsValid(hit.GetActor()))
 			{
-				UE_LOG(LogTemp, Log, TEXT("Trace hit actor: %s"), *hit.GetActor()->GetName());
+				HighLightObject->SetActorLocation(hit.ImpactPoint);
 			}
-			else {
-				UE_LOG(LogTemp, Log, TEXT("No Actors were hit"));
+			else 
+			{
+				HighLightObject->SetActorLocation(FVector(0,0,5000000));
+			}
+		}
+		else
+		{
+			HighLightObject->SetActorLocation(FVector(0,0,5000000));
+
+			FHitResult hit;
+			Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_WorldStatic, false, hit);
+
+			if (hit.bBlockingHit && IsValid(hit.GetActor()) )
+			{
+				if(hit.GetActor()->Tags.Contains("Building"))
+					UE_LOG(LogTemp, Display, TEXT("%s"), *hit.GetActor()->GetActorNameOrLabel());
 			}
 		}
 	}
@@ -163,7 +168,6 @@ void ACityPlayerPawn::HandleBuildingMode()
 		gameManager = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameManager;
 	}
 }
-
 #pragma endregion 
 
 #pragma  region Vector Math
@@ -209,6 +213,14 @@ void ACityPlayerPawn::OnMouseY(float value)
 		ResetMousePositionOnReachingBorder();
 	}
 }
+void ACityPlayerPawn::OnLeftMousePressed()
+{
+	if(gameManager->inBuildingMode)
+	{
+		GetWorld()->SpawnActor(HouseBuilding, &HighLightObject->GetTransform());
+		OnCancelPressed();
+	}
+}
 void ACityPlayerPawn::OnMiddleMousePressed()
 {
 	middleMouseInput = true;
@@ -220,5 +232,10 @@ void ACityPlayerPawn::OnMiddleMouseReleased()
 	middleMouseInput = false;
 	ShowMouse(true);
 	myController->SetMouseLocation(lastKnownMousePosition.X, lastKnownMousePosition.Y);
+}
+void ACityPlayerPawn::OnCancelPressed()
+{
+	if(gameManager->inBuildingMode)
+		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayUIManager->OnCancelBuilding();
 }
 #pragma endregion

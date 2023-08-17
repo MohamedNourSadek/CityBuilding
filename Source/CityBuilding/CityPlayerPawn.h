@@ -32,9 +32,9 @@ public:
 	UPROPERTY(EditAnywhere)	float MovementSpeed = 1;
 	UPROPERTY(EditAnywhere) float ZoomSpeed = 1;
 	UPROPERTY(EditAnywhere) float RotationSpeed = 1;
-
 	UPROPERTY(EditAnywhere, Category = "Building") TEnumAsByte<ECollisionChannel> BuildingTraceChannelProperty = ECC_WorldStatic;
-
+	UPROPERTY(EditAnywhere) AActor* HighLightObject;
+	
 #pragma endregion
 
 #pragma region Setup Functions
@@ -56,15 +56,16 @@ public:
 #pragma endregion
 #pragma  endregion
 
-
 #pragma region Input Callbacks
 	void OnMoveXPressed(float value);
 	void OnMoveYPressed(float value);
 	void OnWheel(float value);
 	void OnMouseX(float value);
 	void OnMouseY(float value);
+	void OnLeftMousePressed();
 	void OnMiddleMousePressed();
 	void OnMiddleMouseReleased();
+	void OnCancelPressed();
 #pragma endregion
 
 #pragma region Private Variables 
@@ -75,6 +76,9 @@ private:
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
 	AGameManager* gameManager;
+
+	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
+	UPROPERTY(EditAnywhere) TEnumAsByte<ECollisionChannel> worldCollisionChannel;
 #pragma endregion
 
 

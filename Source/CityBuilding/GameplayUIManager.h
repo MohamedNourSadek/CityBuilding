@@ -38,6 +38,7 @@ class CITYBUILDING_API UGameplayUIManager : public UUserWidget
 	UFUNCTION()
 	void OnHouseButtonClick();
 
+public:
 	UFUNCTION()
 	void OnCancelBuilding();
 };
