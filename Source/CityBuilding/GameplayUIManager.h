@@ -16,6 +16,7 @@ class CITYBUILDING_API UGameplayUIManager : public UUserWidget
 
 	virtual void NativeConstruct() override;
 
+	UPROPERTY(meta = (BindWidget)) UPanelWidget* AllUnits;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* GameplayUI;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* BuildUI;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* Building;
@@ -41,4 +42,6 @@ class CITYBUILDING_API UGameplayUIManager : public UUserWidget
 public:
 	UFUNCTION()
 	void OnCancelBuilding();
+
+	void SetAllVisibility(bool state);
 };

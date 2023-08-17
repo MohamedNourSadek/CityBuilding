@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Building.h"
+#include "BuildingInfo.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CityPlayerPawn.generated.h"
@@ -79,6 +80,7 @@ private:
 	AGameManager* gameManager;
 
 public:
+
 	UPROPERTY(EditAnywhere) TSubclassOf<class UBuildingInfo> buildingPopUpClass;
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
 	UPROPERTY(EditAnywhere) TEnumAsByte<ECollisionChannel> worldCollisionChannel;

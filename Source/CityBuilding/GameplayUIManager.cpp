@@ -21,6 +21,15 @@ void UGameplayUIManager::NativeConstruct()
 	Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayUIManager = this;
 }
 
+void UGameplayUIManager::SetAllVisibility(bool state)
+{
+	if(state)
+		AllUnits->SetVisibility(ESlateVisibility::Visible);
+	else
+		AllUnits->SetVisibility(ESlateVisibility::Hidden);
+}
+
+
 void UGameplayUIManager::OnBuildButtonClick() 
 {
 	GameplayUI->SetVisibility(ESlateVisibility::Hidden);
@@ -41,7 +50,7 @@ void UGameplayUIManager::OnHouseButtonClick()
 	if(GameManager == nullptr)
 		GetGameManager();
 
-	GameManager->inBuildingMode = true;
+	GameManager->InBuildingMode = true;
 }
 
 void UGameplayUIManager::OnCancelBuilding()
@@ -52,7 +61,8 @@ void UGameplayUIManager::OnCancelBuilding()
 	if (GameManager == nullptr)
 		GetGameManager();
 
-	GameManager->inBuildingMode = false;
+	GameManager->InBuildingMode = false;
+	GameManager->IsBuildingInfoOpen = false;
 }
 
 void UGameplayUIManager::GetGameManager()

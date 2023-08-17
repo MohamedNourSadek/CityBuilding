@@ -26,5 +26,6 @@ public:
 	ACityPlayerPawn* mainPlayer;
 
 	UPROPERTY(EditAnywhere)
-	bool inBuildingMode = false;
+	bool InBuildingMode = false;
+	bool IsBuildingInfoOpen = false;
 };

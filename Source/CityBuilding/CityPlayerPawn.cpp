@@ -136,7 +136,7 @@ void ACityPlayerPawn::HandleBuildingMode()
 {
 	if (gameManager != nullptr)
 	{
-		if(gameManager->inBuildingMode)
+		if(gameManager->InBuildingMode)
 		{
 			BuildingUnderMouse = nullptr;
 
@@ -155,7 +155,6 @@ void ACityPlayerPawn::HandleBuildingMode()
 		else
 		{
 			HighLightObject->SetActorLocation(FVector(0,0,5000000));
-
 			FHitResult hit;
 			Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_WorldStatic, false, hit);
 
@@ -164,12 +163,6 @@ void ACityPlayerPawn::HandleBuildingMode()
 				if(hit.GetActor()->Tags.Contains("Building"))
 				{
 					BuildingUnderMouse = Cast<ABuilding>(hit.GetActor());
-
-					//auto buildingPopUp = CreateWidget<UBuildingInfo>(GetGameInstance(), buildingPopUpClass);
-					//buildingPopUp->AddToViewport();
-
-					
-					//UE_LOG(LogTemp, Display, TEXT("%s"), *UEnum::GetValueAsString(BuildingUnderMouse->BuildingType));
 				}
 				else
 				{
@@ -230,14 +223,17 @@ void ACityPlayerPawn::OnMouseY(float value)
 }
 void ACityPlayerPawn::OnLeftMousePressed()
 {
-	if(gameManager->inBuildingMode)
+	if(gameManager->InBuildingMode)
 	{
 		GetWorld()->SpawnActor(HouseBuilding, &HighLightObject->GetTransform());
 		OnCancelPressed();
 	}
-	else if(BuildingUnderMouse != nullptr)
+	else if(BuildingUnderMouse != nullptr && gameManager->IsBuildingInfoOpen == false)
 	{
-		UE_LOG(LogTemp, Display, TEXT("Show building UI"));
+		auto buildingPopUp = CreateWidget<UBuildingInfo>(GetGameInstance(), buildingPopUpClass);
+		buildingPopUp->AddToViewport();
+		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayUIManager->SetAllVisibility(false);
+		gameManager->IsBuildingInfoOpen = true;
 	}
 }
 void ACityPlayerPawn::OnMiddleMousePressed()
@@ -254,7 +250,7 @@ void ACityPlayerPawn::OnMiddleMouseReleased()
 }
 void ACityPlayerPawn::OnCancelPressed()
 {
-	if(gameManager->inBuildingMode)
+	if(gameManager->InBuildingMode)
 		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayUIManager->OnCancelBuilding();
 }
 #pragma endregion
