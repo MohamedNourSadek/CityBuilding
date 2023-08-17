@@ -165,8 +165,8 @@ void ACityPlayerPawn::HandleBuildingMode()
 				{
 					BuildingUnderMouse = Cast<ABuilding>(hit.GetActor());
 
-					auto buildingPopUp = CreateWidget<UBuildingInfo>(GetGameInstance(), buildingPopUpClass);
-					buildingPopUp->AddToViewport();
+					//auto buildingPopUp = CreateWidget<UBuildingInfo>(GetGameInstance(), buildingPopUpClass);
+					//buildingPopUp->AddToViewport();
 
 					
 					//UE_LOG(LogTemp, Display, TEXT("%s"), *UEnum::GetValueAsString(BuildingUnderMouse->BuildingType));
