@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Building.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CityPlayerPawn.generated.h"
@@ -77,10 +78,11 @@ private:
 	FVector2D lastKnownMousePosition;
 	AGameManager* gameManager;
 
+public:
+	UPROPERTY(EditAnywhere) TSubclassOf<class UBuildingInfo> buildingPopUpClass;
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
 	UPROPERTY(EditAnywhere) TEnumAsByte<ECollisionChannel> worldCollisionChannel;
+	UPROPERTY(VisibleAnywhere) ABuilding* BuildingUnderMouse;
 #pragma endregion
-
-
 
 };

@@ -1,5 +1,6 @@
 #include "CityPlayerPawn.h"
 
+#include "Building.h"
 #include "CityBuildingGameModeBase.h"
 #include "GameManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -137,6 +138,8 @@ void ACityPlayerPawn::HandleBuildingMode()
 	{
 		if(gameManager->inBuildingMode)
 		{
+			BuildingUnderMouse = nullptr;
+
 			FHitResult hit;
 			Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_WorldStatic, false, hit);
 
@@ -159,7 +162,19 @@ void ACityPlayerPawn::HandleBuildingMode()
 			if (hit.bBlockingHit && IsValid(hit.GetActor()) )
 			{
 				if(hit.GetActor()->Tags.Contains("Building"))
-					UE_LOG(LogTemp, Display, TEXT("%s"), *hit.GetActor()->GetActorNameOrLabel());
+				{
+					BuildingUnderMouse = Cast<ABuilding>(hit.GetActor());
+
+					auto buildingPopUp = CreateWidget<UBuildingInfo>(GetGameInstance(), buildingPopUpClass);
+					buildingPopUp->AddToViewport();
+
+					
+					//UE_LOG(LogTemp, Display, TEXT("%s"), *UEnum::GetValueAsString(BuildingUnderMouse->BuildingType));
+				}
+				else
+				{
+					BuildingUnderMouse = nullptr;
+				}
 			}
 		}
 	}
@@ -219,6 +234,10 @@ void ACityPlayerPawn::OnLeftMousePressed()
 	{
 		GetWorld()->SpawnActor(HouseBuilding, &HighLightObject->GetTransform());
 		OnCancelPressed();
+	}
+	else if(BuildingUnderMouse != nullptr)
+	{
+		UE_LOG(LogTemp, Display, TEXT("Show building UI"));
 	}
 }
 void ACityPlayerPawn::OnMiddleMousePressed()
