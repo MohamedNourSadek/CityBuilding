@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Building.h"
 #include "BuildingInfoView.h"
+#include "CityBuildingGameModeBase.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CityPlayerPawn.generated.h"
@@ -29,14 +30,11 @@ public:
 #pragma endregion
 
 #pragma region  Designer Variables
-	UPROPERTY(EditAnywhere) FVector2D ZoomLimits;
-	UPROPERTY(EditAnywhere) FVector2D RotationYLimits;
-	UPROPERTY(EditAnywhere)	float MovementSpeed = 1;
-	UPROPERTY(EditAnywhere) float ZoomSpeed = 1;
-	UPROPERTY(EditAnywhere) float RotationSpeed = 1;
-	UPROPERTY(EditAnywhere, Category = "Building") TEnumAsByte<ECollisionChannel> BuildingTraceChannelProperty = ECC_WorldStatic;
-	UPROPERTY(EditAnywhere) AActor* HighLightObject;
-	
+	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") FVector2D ZoomLimits;
+	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") FVector2D RotationYLimits;
+	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") float MovementSpeed = 1;
+	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") float ZoomSpeed = 1;
+	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") float RotationSpeed = 1;
 #pragma endregion
 
 #pragma region Setup Functions
@@ -52,6 +50,7 @@ public:
 	void ShowMouse(bool state);
 	void ResetMousePositionOnReachingBorder();
 	void HandleBuildingMode();
+	FHitResult CastFromMouse();
 #pragma region Vector Math
 	FVector GetProjectedForward();
 	float GetAngleWithHorizontal();
@@ -72,19 +71,13 @@ public:
 
 #pragma region Private Variables 
 private:
-	USpringArmComponent* mySprinComponent;
+	ACityBuildingGameModeBase* gameMode;
 	APlayerController* myController;
+	USpringArmComponent* mySprinComponent;
 	FVector2D movementInput;
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
-	AGameManager* gameManager;
-
-public:
-
-	UPROPERTY(EditAnywhere) TSubclassOf<class UBuildingInfoView> buildingPopUpClass;
-	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
-	UPROPERTY(EditAnywhere) TEnumAsByte<ECollisionChannel> worldCollisionChannel;
-	UPROPERTY(VisibleAnywhere) ABuilding* BuildingUnderMouse;
+	ABuilding* BuildingUnderMouse;
 #pragma endregion
 
 };

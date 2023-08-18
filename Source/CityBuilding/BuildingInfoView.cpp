@@ -17,8 +17,8 @@ void UBuildingInfoView::OnCloseButtonPressed()
 {
 	const ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
-	gameMode->GameplayView->SetAllVisibility(true);
-	gameMode->GameManager->IsBuildingInfoOpen = false;
+	gameMode->UIManager->GameplayView->SetAllVisibility(true);
+	gameMode->UIManager->IsBuildingInfoOpen = false;
 
 	this->RemoveFromParent();
 	this->MarkAsGarbage();

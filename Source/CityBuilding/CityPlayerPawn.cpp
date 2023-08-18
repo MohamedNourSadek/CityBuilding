@@ -33,6 +33,7 @@ void ACityPlayerPawn::Initialize()
 {
 	mySprinComponent = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
 	myController = Cast<APlayerController>(GetController());
+	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	ShowMouse(true);
 }
@@ -134,47 +135,45 @@ void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
 }
 void ACityPlayerPawn::HandleBuildingMode()
 {
-	if (gameManager != nullptr)
+	if(gameMode->GameManager->InBuildingMode)
 	{
-		if(gameManager->InBuildingMode)
+		BuildingUnderMouse = nullptr;
+
+		FHitResult hit = CastFromMouse();
+
+		if (hit.bBlockingHit && IsValid(hit.GetActor()))
 		{
-			BuildingUnderMouse = nullptr;
-
-			FHitResult hit;
-			Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_WorldStatic, false, hit);
-
-			if (hit.bBlockingHit && IsValid(hit.GetActor()))
-			{
-				HighLightObject->SetActorLocation(hit.ImpactPoint);
-			}
-			else 
-			{
-				HighLightObject->SetActorLocation(FVector(0,0,5000000));
-			}
+			gameMode->GameManager->HighLightObject->SetActorLocation(hit.ImpactPoint);
 		}
-		else
+		else 
 		{
-			HighLightObject->SetActorLocation(FVector(0,0,5000000));
-			FHitResult hit;
-			Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_WorldStatic, false, hit);
-
-			if (hit.bBlockingHit && IsValid(hit.GetActor()) )
-			{
-				if(hit.GetActor()->Tags.Contains("Building"))
-				{
-					BuildingUnderMouse = Cast<ABuilding>(hit.GetActor());
-				}
-				else
-				{
-					BuildingUnderMouse = nullptr;
-				}
-			}
+			gameMode->GameManager->HighLightObject->SetActorLocation(FVector(0,0,5000000));
 		}
 	}
 	else
 	{
-		gameManager = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameManager;
+		gameMode->GameManager->HighLightObject->SetActorLocation(FVector(0,0,5000000));
+
+		FHitResult hit = CastFromMouse();
+
+		if (hit.bBlockingHit && IsValid(hit.GetActor()) )
+		{
+			if(hit.GetActor()->Tags.Contains("Building"))
+			{
+				BuildingUnderMouse = Cast<ABuilding>(hit.GetActor());
+			}
+			else
+			{
+				BuildingUnderMouse = nullptr;
+			}
+		}
 	}
+}
+FHitResult ACityPlayerPawn::CastFromMouse()
+{
+	FHitResult hit;
+	Cast<APlayerController>(GetController())->GetHitResultUnderCursor(ECC_WorldStatic, false, hit);
+	return hit;
 }
 #pragma endregion 
 
@@ -223,17 +222,14 @@ void ACityPlayerPawn::OnMouseY(float value)
 }
 void ACityPlayerPawn::OnLeftMousePressed()
 {
-	if(gameManager->InBuildingMode)
+	if(gameMode->GameManager->InBuildingMode)
 	{
-		GetWorld()->SpawnActor(HouseBuilding, &HighLightObject->GetTransform());
+		GetWorld()->SpawnActor(gameMode->GameManager->HouseBuilding, &gameMode->GameManager->HighLightObject->GetTransform());
 		OnCancelPressed();
 	}
-	else if(BuildingUnderMouse != nullptr && gameManager->IsBuildingInfoOpen == false)
+	else if(BuildingUnderMouse != nullptr && gameMode->UIManager->IsBuildingInfoOpen == false)
 	{
-		auto buildingPopUp = CreateWidget<UBuildingInfoView>(GetGameInstance(), buildingPopUpClass);
-		buildingPopUp->AddToViewport();
-		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayView->SetAllVisibility(false);
-		gameManager->IsBuildingInfoOpen = true;
+		gameMode->UIManager->OpenBuildingInfoPopUp(BuildingUnderMouse);
 	}
 }
 void ACityPlayerPawn::OnMiddleMousePressed()
@@ -250,7 +246,7 @@ void ACityPlayerPawn::OnMiddleMouseReleased()
 }
 void ACityPlayerPawn::OnCancelPressed()
 {
-	if(gameManager->InBuildingMode)
-		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayView->OnCancelBuilding();
+	if(gameMode->GameManager->InBuildingMode)
+		gameMode->UIManager->GameplayView->OnCancelBuilding();
 }
 #pragma endregion

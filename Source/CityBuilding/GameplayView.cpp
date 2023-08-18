@@ -15,9 +15,8 @@ void UGameplayView::NativeConstruct()
 	HouseButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnHouseButtonClick);
 	CancelBuilding->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnCancelBuilding);
 
-	GetGameManager();
-
-	Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayView = this;
+	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	gameMode->UIManager->GameplayView = this;
 }
 
 void UGameplayView::SetAllVisibility(bool state)
@@ -45,10 +44,8 @@ void UGameplayView::OnHouseButtonClick()
 	BuildUI->SetVisibility(ESlateVisibility::Hidden);
 	Building->SetVisibility(ESlateVisibility::Visible);
 
-	if (GameManager == nullptr)
-		GetGameManager();
 
-	GameManager->InBuildingMode = true;
+	gameMode->GameManager->InBuildingMode = true;
 }
 
 void UGameplayView::OnCancelBuilding()
@@ -56,14 +53,7 @@ void UGameplayView::OnCancelBuilding()
 	Building->SetVisibility(ESlateVisibility::Hidden);
 	BuildUI->SetVisibility(ESlateVisibility::Visible);
 
-	if (GameManager == nullptr)
-		GetGameManager();
-
-	GameManager->InBuildingMode = false;
-	GameManager->IsBuildingInfoOpen = false;
+	gameMode->GameManager->InBuildingMode = false;
+	gameMode->UIManager->IsBuildingInfoOpen = false;
 }
 
-void UGameplayView::GetGameManager()
-{
-	GameManager = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameManager;
-}

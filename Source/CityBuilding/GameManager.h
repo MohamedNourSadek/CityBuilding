@@ -21,12 +21,12 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class UGameplayView> GameplayViewClass;
-	UGameplayView* GameplayView;
-	ACityPlayerPawn* MainPlayer;
+#pragma region Public References
+public:
+	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
+	UPROPERTY(EditAnywhere) AActor* HighLightObject;
+#pragma endregion
 
-	UPROPERTY(EditAnywhere)
+	ACityPlayerPawn* MainPlayer;
 	bool InBuildingMode = false;
-	bool IsBuildingInfoOpen = false;
 };

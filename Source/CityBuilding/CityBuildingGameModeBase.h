@@ -4,18 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameplayView.h"
+#include "UIManager.h"
 #include "GameFramework/GameModeBase.h"
 #include "CityBuildingGameModeBase.generated.h"
-
-class AGameManager;
 
 UCLASS()
 class CITYBUILDING_API ACityBuildingGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	virtual void BeginPlay() override;
 
 public:
 	AGameManager* GameManager;
-	UGameplayView* GameplayView;
+	AUIManager* UIManager;
 };

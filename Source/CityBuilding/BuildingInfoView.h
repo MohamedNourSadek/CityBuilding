@@ -11,10 +11,9 @@ class CITYBUILDING_API UBuildingInfoView : public UUserWidget
 {
 	GENERATED_BODY()
 
-	UPROPERTY(meta = (BindWidget)) UButton* CloseButton;
-
 	virtual void NativeConstruct() override;
 
-	UFUNCTION()
-		void OnCloseButtonPressed();
+	UFUNCTION() void OnCloseButtonPressed();
+
+	UPROPERTY(meta = (BindWidget)) UButton* CloseButton;
 };

@@ -8,6 +8,7 @@
 #include "GameplayView.generated.h"
 
 class AGameManager;
+class ACityBuildingGameModeBase;
 
 UCLASS()
 class CITYBUILDING_API UGameplayView : public UUserWidget
@@ -16,6 +17,8 @@ class CITYBUILDING_API UGameplayView : public UUserWidget
 
 	virtual void NativeConstruct() override;
 
+#pragma region Bound TO Unreal
+public:
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* AllUnits;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* GameplayUI;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* BuildUI;
@@ -25,22 +28,23 @@ class CITYBUILDING_API UGameplayView : public UUserWidget
 	UPROPERTY(meta = (BindWidget)) UButton* BackButton;
 	UPROPERTY(meta = (BindWidget)) UButton* CancelBuilding;
 
-	AGameManager* GameManager;
+	UFUNCTION() void OnBuildButtonClick();
+	UFUNCTION()	void OnBackButtonClick();
+	UFUNCTION()	void OnHouseButtonClick();
+	UFUNCTION() void OnCancelBuilding();
+#pragma endregion
 
-	void GetGameManager();
-
-	UFUNCTION()
-		void OnBuildButtonClick();
-
-	UFUNCTION()
-		void OnBackButtonClick();
-
-	UFUNCTION()
-		void OnHouseButtonClick();
-
+#pragma region Public Functions
 public:
-	UFUNCTION()
-		void OnCancelBuilding();
-
 	void SetAllVisibility(bool state);
+#pragma endregion
+
+#pragma region Private Variables
+private:
+	ACityBuildingGameModeBase* gameMode;
+#pragma endregion
+
+
+
+
 };

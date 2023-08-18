@@ -10,30 +10,19 @@
 #include "Kismet/GameplayStatics.h"
 
 
-// Sets default values
 AGameManager::AGameManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 }
-
 void AGameManager::Tick(float DeltaTime)
 {
-	
 }
-
 void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	GameplayView = CreateWidget<UGameplayView>(GetGameInstance(), GameplayViewClass);
-	GameplayView->AddToViewport();
-
 	ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	gameMode->GameManager = this;
-
 	MainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	gameMode->GameManager = this;
 }
-
-
 
