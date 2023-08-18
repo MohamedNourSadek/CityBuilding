@@ -230,9 +230,9 @@ void ACityPlayerPawn::OnLeftMousePressed()
 	}
 	else if(BuildingUnderMouse != nullptr && gameManager->IsBuildingInfoOpen == false)
 	{
-		auto buildingPopUp = CreateWidget<UBuildingInfo>(GetGameInstance(), buildingPopUpClass);
+		auto buildingPopUp = CreateWidget<UBuildingInfoView>(GetGameInstance(), buildingPopUpClass);
 		buildingPopUp->AddToViewport();
-		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayUIManager->SetAllVisibility(false);
+		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayView->SetAllVisibility(false);
 		gameManager->IsBuildingInfoOpen = true;
 	}
 }
@@ -251,6 +251,6 @@ void ACityPlayerPawn::OnMiddleMouseReleased()
 void ACityPlayerPawn::OnCancelPressed()
 {
 	if(gameManager->InBuildingMode)
-		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayUIManager->OnCancelBuilding();
+		Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->GameplayView->OnCancelBuilding();
 }
 #pragma endregion

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayUIManager.h"
+#include "GameplayView.h"
 #include "GameFramework/Actor.h"
 #include "GameManager.generated.h"
 
@@ -21,9 +21,10 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere) TSubclassOf<class UGameplayUIManager> gameplayUIclass;
-	UGameplayUIManager* gameplayUIManager;
-	ACityPlayerPawn* mainPlayer;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UGameplayView> GameplayViewClass;
+	UGameplayView* GameplayView;
+	ACityPlayerPawn* MainPlayer;
 
 	UPROPERTY(EditAnywhere)
 	bool InBuildingMode = false;

@@ -1,19 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "BuildingInfo.h"
-
-#include "CityBuildingGameModeBase.h"
+#include "BuildingInfoView.h"
 #include "GameManager.h"
+#include "CityBuildingGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
-void UBuildingInfo::NativeConstruct()
+
+void UBuildingInfoView::NativeConstruct()
 {
 	Super::Construct();
-	CloseButton->OnClicked.AddDynamic(this, &UBuildingInfo::OnCloseButtonPressed);
+	CloseButton->OnClicked.AddDynamic(this, &UBuildingInfoView::OnCloseButtonPressed);
 }
 
-void UBuildingInfo::OnCloseButtonPressed()
+void UBuildingInfoView::OnCloseButtonPressed()
 {
 	const ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 
@@ -22,6 +22,4 @@ void UBuildingInfo::OnCloseButtonPressed()
 
 	this->RemoveFromParent();
 	this->MarkAsGarbage();
-
 }
-

@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Building.h"
-#include "BuildingInfo.h"
+#include "BuildingInfoView.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CityPlayerPawn.generated.h"
@@ -81,7 +81,7 @@ private:
 
 public:
 
-	UPROPERTY(EditAnywhere) TSubclassOf<class UBuildingInfo> buildingPopUpClass;
+	UPROPERTY(EditAnywhere) TSubclassOf<class UBuildingInfoView> buildingPopUpClass;
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
 	UPROPERTY(EditAnywhere) TEnumAsByte<ECollisionChannel> worldCollisionChannel;
 	UPROPERTY(VisibleAnywhere) ABuilding* BuildingUnderMouse;

@@ -5,7 +5,7 @@
 
 #include "CityBuildingGameModeBase.h"
 #include "CityPlayerPawn.h"
-#include "GameplayUIManager.h"
+#include "GameplayView.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -26,13 +26,13 @@ void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	gameplayUIManager = CreateWidget<UGameplayUIManager>(GetGameInstance(), gameplayUIclass);
-	gameplayUIManager->AddToViewport();
+	GameplayView = CreateWidget<UGameplayView>(GetGameInstance(), GameplayViewClass);
+	GameplayView->AddToViewport();
 
 	ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	gameMode->GameManager = this;
 
-	mainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	MainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 }
 
 
