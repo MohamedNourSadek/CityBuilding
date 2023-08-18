@@ -36,4 +36,18 @@ void AGameManager::ShowGrid(bool state)
 		actors[i]->SetActorHiddenInGame(!state);
 	}
 }
+void AGameManager::SpawnBuilding(EBuildingType buildingType)
+{
+	TSubclassOf<AActor> buildingClass;
+
+	if (buildingType == EBuildingType::House)
+		buildingClass = HouseBuilding;
+	else if (buildingType == EBuildingType::Tower)
+		buildingClass = TowerBuilding;
+	else if (buildingType == EBuildingType::WoodMill)
+		buildingClass = WoodMill;
+
+	const auto building = GetWorld()->SpawnActor(buildingClass, &HighLightObject->GetTransform());
+	building->SetActorRotation(HighLightObject->GetActorRotation());
+}
 

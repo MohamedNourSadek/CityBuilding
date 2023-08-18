@@ -10,7 +10,8 @@ UENUM()
 enum EBuildingType
 {
 	House UMETA(DisplayName = "House"),
-	WoodMill UMETA(DisplayName = "WoodMill")
+	WoodMill UMETA(DisplayName = "WoodMill"),
+	Tower UMETA(DisplayName = "Tower")
 };
 
 UCLASS()

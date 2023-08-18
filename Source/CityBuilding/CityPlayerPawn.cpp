@@ -137,7 +137,7 @@ void ACityPlayerPawn::HandleBuildingMode()
 {
 	if(gameMode->GameManager->InBuildingMode)
 	{
-		BuildingUnderMouse = nullptr;
+		buildingUnderMouse = nullptr;
 
 		FHitResult hit = CastFromMouse();
 
@@ -145,7 +145,9 @@ void ACityPlayerPawn::HandleBuildingMode()
 		{
 			if (hit.GetActor()->Tags.Contains("Grid"))
 			{
+				gridElementSelected = hit.GetActor();
 				gameMode->GameManager->HighLightObject->SetActorLocation(hit.GetActor()->GetActorLocation());
+				gameMode->GameManager->HighLightObject->SetActorRotation(hit.GetActor()->GetActorRotation());
 				gameMode->GameManager->CanBuild = true;
 			}
 			else
@@ -169,11 +171,11 @@ void ACityPlayerPawn::HandleBuildingMode()
 		{
 			if(hit.GetActor()->Tags.Contains("Building"))
 			{
-				BuildingUnderMouse = Cast<ABuilding>(hit.GetActor());
+				buildingUnderMouse = Cast<ABuilding>(hit.GetActor());
 			}
 			else
 			{
-				BuildingUnderMouse = nullptr;
+				buildingUnderMouse = nullptr;
 			}
 		}
 	}
@@ -233,12 +235,14 @@ void ACityPlayerPawn::OnLeftMousePressed()
 {
 	if(gameMode->GameManager->InBuildingMode && gameMode->GameManager->CanBuild)
 	{
-		GetWorld()->SpawnActor(gameMode->GameManager->HouseBuilding, &gameMode->GameManager->HighLightObject->GetTransform());
+		gameMode->GameManager->SpawnBuilding(gameMode->GameManager->ToBuild);
+		gridElementSelected->Destroy();
+
 		OnCancelPressed();
 	}
-	else if(BuildingUnderMouse != nullptr && gameMode->UIManager->IsBuildingInfoOpen == false)
+	else if(buildingUnderMouse != nullptr && gameMode->UIManager->IsBuildingInfoOpen == false)
 	{
-		gameMode->UIManager->OpenBuildingInfoPopUp(BuildingUnderMouse);
+		gameMode->UIManager->OpenBuildingInfoPopUp(buildingUnderMouse);
 	}
 }
 void ACityPlayerPawn::OnMiddleMousePressed()

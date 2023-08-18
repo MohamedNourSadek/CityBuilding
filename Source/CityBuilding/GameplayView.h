@@ -24,14 +24,18 @@ public:
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* BuildUI;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* Building;
 	UPROPERTY(meta = (BindWidget)) UButton* BuildButton;
-	UPROPERTY(meta = (BindWidget)) UButton* HouseButton;
 	UPROPERTY(meta = (BindWidget)) UButton* BackButton;
 	UPROPERTY(meta = (BindWidget)) UButton* CancelBuilding;
+	UPROPERTY(meta = (BindWidget)) UButton* HouseButton;
+	UPROPERTY(meta = (BindWidget)) UButton* TowerButton;
+	UPROPERTY(meta = (BindWidget)) UButton* WoodMillButton;
 
 	UFUNCTION() void OnBuildButtonClick();
 	UFUNCTION()	void OnBackButtonClick();
-	UFUNCTION()	void OnHouseButtonClick();
 	UFUNCTION() void OnCancelBuilding();
+	UFUNCTION()	void OnHouseButtonClick();
+	UFUNCTION() void OnTowerButtonClick();
+	UFUNCTION() void OnWoodMillButtonClick();
 #pragma endregion
 
 #pragma region Public Functions
@@ -44,6 +48,10 @@ private:
 	ACityBuildingGameModeBase* gameMode;
 #pragma endregion
 
+
+#pragma region Private Functions
+	void SetBuildingState(bool state);
+#pragma endregion
 
 
 

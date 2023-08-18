@@ -13,7 +13,10 @@ void UGameplayView::NativeConstruct()
 	BuildButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnBuildButtonClick);
 	BackButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnBackButtonClick);
 	HouseButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnHouseButtonClick);
+	TowerButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnTowerButtonClick);
+	WoodMillButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnWoodMillButtonClick);
 	CancelBuilding->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnCancelBuilding);
+
 
 	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	gameMode->UIManager->GameplayView = this;
@@ -39,22 +42,43 @@ void UGameplayView::OnBackButtonClick()
 	BuildUI->SetVisibility(ESlateVisibility::Hidden);
 }
 
-void UGameplayView::OnHouseButtonClick()
-{
-	BuildUI->SetVisibility(ESlateVisibility::Hidden);
-	Building->SetVisibility(ESlateVisibility::Visible);
-
-	gameMode->GameManager->InBuildingMode = true;
-	gameMode->GameManager->ShowGrid(true);
-}
-
 void UGameplayView::OnCancelBuilding()
 {
-	Building->SetVisibility(ESlateVisibility::Hidden);
-	BuildUI->SetVisibility(ESlateVisibility::Visible);
 
-	gameMode->GameManager->InBuildingMode = false;
-	gameMode->UIManager->IsBuildingInfoOpen = false;
-	gameMode->GameManager->ShowGrid(false);
+	SetBuildingState(false);
 }
+
+void UGameplayView::OnHouseButtonClick()
+{
+	gameMode->GameManager->ToBuild = EBuildingType::House;
+	SetBuildingState(true);
+}
+void UGameplayView::OnWoodMillButtonClick()
+{
+	gameMode->GameManager->ToBuild = EBuildingType::WoodMill;
+	SetBuildingState(true);
+}
+void UGameplayView::OnTowerButtonClick()
+{
+	gameMode->GameManager->ToBuild = EBuildingType::Tower;
+	SetBuildingState(true);
+}
+void UGameplayView::SetBuildingState(bool state)
+{
+	if (state)
+	{
+		BuildUI->SetVisibility(ESlateVisibility::Hidden);
+		Building->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		BuildUI->SetVisibility(ESlateVisibility::Visible);
+		Building->SetVisibility(ESlateVisibility::Hidden);
+	}
+
+	gameMode->GameManager->InBuildingMode = state;
+	gameMode->GameManager->ShowGrid(state);
+}
+
+
 

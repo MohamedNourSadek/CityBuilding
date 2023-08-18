@@ -77,7 +77,8 @@ private:
 	FVector2D movementInput;
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
-	ABuilding* BuildingUnderMouse;
+	ABuilding* buildingUnderMouse;
+	AActor* gridElementSelected;
 #pragma endregion
 
 };
