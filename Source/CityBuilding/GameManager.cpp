@@ -25,4 +25,15 @@ void AGameManager::BeginPlay()
 	MainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	gameMode->GameManager = this;
 }
+void AGameManager::ShowGrid(bool state)
+{
+	TArray<AActor*> actors;
+
+	Grid->GetAttachedActors(actors, true);
+
+	for(int i =0; i < actors.Num(); i++)
+	{
+		actors[i]->SetActorHiddenInGame(!state);
+	}
+}
 

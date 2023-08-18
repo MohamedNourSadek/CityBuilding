@@ -13,7 +13,10 @@ class CITYBUILDING_API ACityBuildingGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+
 public:
 	AGameManager* GameManager;
 	AUIManager* UIManager;
+
+
 };

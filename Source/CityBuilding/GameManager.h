@@ -25,8 +25,14 @@ public:
 public:
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
 	UPROPERTY(EditAnywhere) AActor* HighLightObject;
-#pragma endregion
+	UPROPERTY(EditAnywhere) AActor* Grid;
 
+#pragma endregion
 	ACityPlayerPawn* MainPlayer;
+
+	UPROPERTY(EditAnywhere)
 	bool InBuildingMode = false;
+	bool CanBuild = false;
+
+	void ShowGrid(bool state);
 };

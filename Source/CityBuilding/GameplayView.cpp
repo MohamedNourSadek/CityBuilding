@@ -44,8 +44,8 @@ void UGameplayView::OnHouseButtonClick()
 	BuildUI->SetVisibility(ESlateVisibility::Hidden);
 	Building->SetVisibility(ESlateVisibility::Visible);
 
-
 	gameMode->GameManager->InBuildingMode = true;
+	gameMode->GameManager->ShowGrid(true);
 }
 
 void UGameplayView::OnCancelBuilding()
@@ -55,5 +55,6 @@ void UGameplayView::OnCancelBuilding()
 
 	gameMode->GameManager->InBuildingMode = false;
 	gameMode->UIManager->IsBuildingInfoOpen = false;
+	gameMode->GameManager->ShowGrid(false);
 }
 

@@ -143,7 +143,16 @@ void ACityPlayerPawn::HandleBuildingMode()
 
 		if (hit.bBlockingHit && IsValid(hit.GetActor()))
 		{
-			gameMode->GameManager->HighLightObject->SetActorLocation(hit.ImpactPoint);
+			if (hit.GetActor()->Tags.Contains("Grid"))
+			{
+				gameMode->GameManager->HighLightObject->SetActorLocation(hit.GetActor()->GetActorLocation());
+				gameMode->GameManager->CanBuild = true;
+			}
+			else
+			{
+				gameMode->GameManager->HighLightObject->SetActorLocation(FVector(0, 0, 5000000));
+				gameMode->GameManager->CanBuild = false;
+			}
 		}
 		else 
 		{
@@ -222,7 +231,7 @@ void ACityPlayerPawn::OnMouseY(float value)
 }
 void ACityPlayerPawn::OnLeftMousePressed()
 {
-	if(gameMode->GameManager->InBuildingMode)
+	if(gameMode->GameManager->InBuildingMode && gameMode->GameManager->CanBuild)
 	{
 		GetWorld()->SpawnActor(gameMode->GameManager->HouseBuilding, &gameMode->GameManager->HighLightObject->GetTransform());
 		OnCancelPressed();
