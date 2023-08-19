@@ -10,13 +10,22 @@
 void UBuildingInfoView::NativeConstruct()
 {
 	Super::Construct();
+
+	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	CloseButton->OnClicked.AddDynamic(this, &UBuildingInfoView::OnCloseButtonPressed);
+
 }
+
+void UBuildingInfoView::SetUI(EBuildingType buildingType)
+{
+	BuildingImage->SetBrushFromTexture(gameMode->UIManager->BuildingsIcons[buildingType]);
+	Title->SetText(FText::FromString(gameMode->UIManager->BuildingTitles[buildingType]));
+	Description->SetText(FText::FromString(gameMode->UIManager->BuildingDes[buildingType]));
+}
+
 
 void UBuildingInfoView::OnCloseButtonPressed()
 {
-	const ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
 	gameMode->UIManager->GameplayView->SetAllVisibility(true);
 	gameMode->UIManager->IsBuildingInfoOpen = false;
 

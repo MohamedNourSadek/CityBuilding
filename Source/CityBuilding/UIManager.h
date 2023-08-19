@@ -39,6 +39,10 @@ public:
 
 #pragma region Global UI References
 public:
+	UPROPERTY(EditAnywhere) TMap<TEnumAsByte<EBuildingType>, UTexture2D*> BuildingsIcons;
+	UPROPERTY(EditAnywhere) TMap<TEnumAsByte<EBuildingType>, FString> BuildingTitles;
+	UPROPERTY(EditAnywhere) TMap<TEnumAsByte<EBuildingType>, FString> BuildingDes;
+
 	UGameplayView* GameplayView;
 	bool IsBuildingInfoOpen = false;
 #pragma endregion

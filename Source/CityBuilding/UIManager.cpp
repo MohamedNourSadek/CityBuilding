@@ -30,11 +30,12 @@ void AUIManager::InitializeUI()
 	GameplayView = CreateWidget<UGameplayView>(GetGameInstance(), GameplayViewClass);
 	GameplayView->AddToViewport();
 }
-
 void AUIManager::OpenBuildingInfoPopUp(ABuilding* building)
 {
 	const auto buildingPopUp = CreateWidget<UBuildingInfoView>(GetGameInstance(), buildingPopUpClass);
 	buildingPopUp->AddToViewport();
+	buildingPopUp->SetUI(building->BuildingType);
+
 	GameplayView->SetAllVisibility(false);
 	IsBuildingInfoOpen = true;
 }
