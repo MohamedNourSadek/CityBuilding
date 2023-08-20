@@ -21,7 +21,7 @@ void ADayNightCycle::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	if(light != nullptr)
-		light->AddActorLocalRotation(FRotator(daySpeed* DeltaTime,0,0));
+		light->AddActorWorldRotation(FRotator(daySpeed* DeltaTime,0,0));
 
 	if(sun !=nullptr)
 	{
