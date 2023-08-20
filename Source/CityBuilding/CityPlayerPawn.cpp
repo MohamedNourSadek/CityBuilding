@@ -135,7 +135,6 @@ void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
 }
 void ACityPlayerPawn::HandleBuildingMode()
 {
-	
 	if(gameMode->GameManager->InBuildingMode)
 	{
 		buildingUnderMouse = nullptr;
@@ -191,13 +190,31 @@ void ACityPlayerPawn::HandleBuildingMode()
 
 			if(hit.GetActor()->GetActorNameOrLabel().ToLower().Contains("rock"))
 			{
+				rawStoneUnderMouse = hit.GetActor();
+			}
+			else
+			{
+				rawStoneUnderMouse = nullptr;
+			}
+
+
+			if(hit.GetActor()->GetActorNameOrLabel().ToLower().Contains("log"))
+			{
+				logUnderMouse = hit.GetActor();
+			}
+			else
+			{
+				logUnderMouse = nullptr;
+			}
+
+			if(hit.GetActor()->GetActorNameOrLabel().ToLower().Contains("stone"))
+			{
 				stoneUnderMouse = hit.GetActor();
 			}
 			else
 			{
 				stoneUnderMouse = nullptr;
 			}
-				
 		}
 	}
 }
@@ -273,11 +290,23 @@ void ACityPlayerPawn::OnLeftMousePressed()
 			treeUnderMouse->Destroy();
 			treeUnderMouse = nullptr;
 		}
+		else if(rawStoneUnderMouse)
+		{
+			gameMode->GameManager->SpawnStones(rawStoneUnderMouse->GetActorLocation());
+			rawStoneUnderMouse->Destroy();
+			rawStoneUnderMouse = nullptr;
+		}
+		else if(logUnderMouse)
+		{
+			logUnderMouse->Destroy();
+			gameMode->GameManager->RawWoodAmount ++;
+			gameMode->UIManager->GameplayView->RefreshResourcesUI();
+		}
 		else if(stoneUnderMouse)
 		{
-			gameMode->GameManager->SpawnStones(stoneUnderMouse->GetActorLocation());
 			stoneUnderMouse->Destroy();
-			stoneUnderMouse = nullptr;
+			gameMode->GameManager->StoneAmount ++;
+			gameMode->UIManager->GameplayView->RefreshResourcesUI();
 		}
 	}
 }

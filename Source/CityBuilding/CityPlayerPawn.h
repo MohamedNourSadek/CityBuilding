@@ -79,7 +79,11 @@ private:
 	FVector2D lastKnownMousePosition;
 	ABuilding* buildingUnderMouse;
 	AActor* treeUnderMouse;
+	AActor* rawStoneUnderMouse;
+
+	AActor* logUnderMouse;
 	AActor* stoneUnderMouse;
+	
 	AActor* gridElementSelected;
 #pragma endregion
 };

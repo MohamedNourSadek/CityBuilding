@@ -79,6 +79,12 @@ void UGameplayView::SetBuildingState(bool state)
 	gameMode->GameManager->InBuildingMode = state;
 	gameMode->GameManager->ShowGrid(state);
 }
+void UGameplayView::RefreshResourcesUI()
+{
+	RawWoodAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->RawWoodAmount)));
+	WoodAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->WoodAmount)));
+	StoneAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->StoneAmount)));
+}
 
 
 

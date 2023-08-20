@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 #include "GameplayView.generated.h"
 
 class AGameManager;
@@ -29,7 +30,10 @@ public:
 	UPROPERTY(meta = (BindWidget)) UButton* HouseButton;
 	UPROPERTY(meta = (BindWidget)) UButton* TowerButton;
 	UPROPERTY(meta = (BindWidget)) UButton* WoodMillButton;
-
+	UPROPERTY(meta = (BindWidget)) UTextBlock* WoodAmount;
+	UPROPERTY(meta = (BindWidget)) UTextBlock* RawWoodAmount;
+	UPROPERTY(meta = (BindWidget)) UTextBlock* StoneAmount;
+	
 	UFUNCTION() void OnBuildButtonClick();
 	UFUNCTION()	void OnBackButtonClick();
 	UFUNCTION() void OnCancelBuilding();
@@ -47,12 +51,11 @@ public:
 private:
 	ACityBuildingGameModeBase* gameMode;
 #pragma endregion
-
-
 #pragma region Private Functions
 	void SetBuildingState(bool state);
 #pragma endregion
 
-
+public:
+	void RefreshResourcesUI();
 
 };
