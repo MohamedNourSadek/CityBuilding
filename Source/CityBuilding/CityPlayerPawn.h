@@ -51,6 +51,7 @@ public:
 	void ResetMousePositionOnReachingBorder();
 	void HandleObjectsDetection();
 	void SetObjectOutLine(AActor* actor, bool state);
+	bool IsOneOfTheInteractbleNamesOrTags(AActor* actor);
 	FHitResult CastFromMouse();
 #pragma region Vector Math
 	FVector GetProjectedForward();

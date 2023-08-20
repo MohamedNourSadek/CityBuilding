@@ -172,8 +172,11 @@ void ACityPlayerPawn::HandleObjectsDetection()
 			if(hit.GetActor() != actorUnderMouse)
 			{
 				SetObjectOutLine(actorUnderMouse, false);
+
 				actorUnderMouse = hit.GetActor();
-				SetObjectOutLine(actorUnderMouse, true);
+
+				if(IsOneOfTheInteractbleNamesOrTags(actorUnderMouse))
+					SetObjectOutLine(actorUnderMouse, true);
 			}
 
 			if(hit.GetActor()->Tags.Contains("Building"))
@@ -229,6 +232,21 @@ void ACityPlayerPawn::HandleObjectsDetection()
 	}
 }
 
+bool ACityPlayerPawn::IsOneOfTheInteractbleNamesOrTags(AActor* actor)
+{
+	bool IsOneOfThem = false;
+
+	for(auto tag : gameMode->GameManager->InteractableTagsOrNames)
+	{
+		if(actor->GetActorNameOrLabel().ToLower().Contains(tag))
+		{
+			IsOneOfThem = true;
+			break;
+		}
+	}
+
+	return IsOneOfThem;
+}
 void ACityPlayerPawn::SetObjectOutLine(AActor* actor, bool state)
 {
 	if (actor != nullptr)
