@@ -15,15 +15,12 @@ void UBuildingInfoView::NativeConstruct()
 	CloseButton->OnClicked.AddDynamic(this, &UBuildingInfoView::OnCloseButtonPressed);
 
 }
-
 void UBuildingInfoView::SetUI(EBuildingType buildingType)
 {
 	BuildingImage->SetBrushFromTexture(gameMode->UIManager->BuildingsIcons[buildingType]);
 	Title->SetText(FText::FromString(gameMode->UIManager->BuildingTitles[buildingType]));
 	Description->SetText(FText::FromString(gameMode->UIManager->BuildingDes[buildingType]));
 }
-
-
 void UBuildingInfoView::OnCloseButtonPressed()
 {
 	gameMode->UIManager->GameplayView->SetAllVisibility(true);
