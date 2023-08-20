@@ -24,9 +24,6 @@ void AGameManager::BeginPlay()
 	ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	MainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	gameMode->GameManager = this;
-
-	if(gameMode->UIManager != nullptr)
-		gameMode->UIManager->GameplayView->RefreshResourcesUI();
 }
 void AGameManager::ShowGrid(bool state)
 {

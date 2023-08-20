@@ -19,7 +19,7 @@ void ACityPlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	Move();
-	HandleBuildingMode();
+	HandleObjectsDetection();
 }
 void ACityPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -133,10 +133,7 @@ void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
 		myController->SetMouseLocation(screenSize.X / 2.0, screenSize.Y / 2.0);
 	}
 }
-
-AActor* actorUnderMouse;
-
-void ACityPlayerPawn::HandleBuildingMode()
+void ACityPlayerPawn::HandleObjectsDetection()
 {
 	if(gameMode->GameManager->InBuildingMode)
 	{
@@ -170,38 +167,13 @@ void ACityPlayerPawn::HandleBuildingMode()
 
 		FHitResult hit = CastFromMouse();
 
-		if (hit.bBlockingHit && IsValid(hit.GetActor()) )
+		if (hit.bBlockingHit && IsValid(hit.GetActor()))
 		{
 			if(hit.GetActor() != actorUnderMouse)
 			{
-				if (actorUnderMouse != nullptr)
-				{
-					TArray<UStaticMeshComponent*> Components;
-					hit.GetActor()->GetComponents<UStaticMeshComponent>(Components);
-
-					for (int32 i = 0; i < Components.Num(); i++)
-					{
-						UStaticMeshComponent* staticMesh = Components[i];
-						staticMesh->bRenderCustomDepth = false;
-					}
-				}
-
+				SetObjectOutLine(actorUnderMouse, false);
 				actorUnderMouse = hit.GetActor();
-
-				TArray<UStaticMeshComponent*> Components;
-				actorUnderMouse->GetComponents<UStaticMeshComponent>(Components);
-
-				for (int32 i = 0; i < Components.Num(); i++)
-				{
-					UStaticMeshComponent* staticMesh = Components[i];
-					staticMesh->bRenderCustomDepth = true;
-
-					UE_LOG(LogTemp, Display, TEXT("%i"), staticMesh->bRenderCustomDepth);
-				}
-
-				UE_LOG(LogTemp, Display, TEXT("%s"), *actorUnderMouse->GetActorNameOrLabel());
-				UE_LOG(LogTemp, Display, TEXT("%d"), Components.Num());
-
+				SetObjectOutLine(actorUnderMouse, true);
 			}
 
 			if(hit.GetActor()->Tags.Contains("Building"))
@@ -249,6 +221,25 @@ void ACityPlayerPawn::HandleBuildingMode()
 			{
 				stoneUnderMouse = nullptr;
 			}
+		}
+		else
+		{
+			SetObjectOutLine(actorUnderMouse, false);
+		}
+	}
+}
+
+void ACityPlayerPawn::SetObjectOutLine(AActor* actor, bool state)
+{
+	if (actor != nullptr)
+	{
+		TArray<UStaticMeshComponent*> Components;
+		actor->GetComponents<UStaticMeshComponent>(Components);
+
+		for (int32 i = 0; i < Components.Num(); i++)
+		{
+			UStaticMeshComponent* staticMesh = Components[i];
+			staticMesh->SetRenderCustomDepth(state);
 		}
 	}
 }

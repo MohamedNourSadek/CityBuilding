@@ -20,6 +20,8 @@ void UGameplayView::NativeConstruct()
 
 	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	gameMode->UIManager->GameplayView = this;
+
+	RefreshResourcesUI();
 }
 
 void UGameplayView::SetAllVisibility(bool state)

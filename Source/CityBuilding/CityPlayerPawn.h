@@ -49,7 +49,8 @@ public:
 	void RotateY(float delta);
 	void ShowMouse(bool state);
 	void ResetMousePositionOnReachingBorder();
-	void HandleBuildingMode();
+	void HandleObjectsDetection();
+	void SetObjectOutLine(AActor* actor, bool state);
 	FHitResult CastFromMouse();
 #pragma region Vector Math
 	FVector GetProjectedForward();
@@ -77,13 +78,14 @@ private:
 	FVector2D movementInput;
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
+
 	ABuilding* buildingUnderMouse;
+
+	AActor* actorUnderMouse;
 	AActor* treeUnderMouse;
 	AActor* rawStoneUnderMouse;
-
 	AActor* logUnderMouse;
 	AActor* stoneUnderMouse;
-	
 	AActor* gridElementSelected;
 #pragma endregion
 };
