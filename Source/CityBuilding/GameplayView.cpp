@@ -16,7 +16,8 @@ void UGameplayView::NativeConstruct()
 	TowerButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnTowerButtonClick);
 	WoodMillButton->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnWoodMillButtonClick);
 	CancelBuilding->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnCancelBuilding);
-
+	OpenResources->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnOpenResourcs);
+	HideResources->OnClicked.AddUniqueDynamic(this, &UGameplayView::OnHideResources);
 
 	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	gameMode->UIManager->GameplayView = this;
@@ -24,46 +25,14 @@ void UGameplayView::NativeConstruct()
 	RefreshResourcesUI();
 }
 
+
+#pragma region Public Functions
 void UGameplayView::SetAllVisibility(bool state)
 {
 	if (state)
 		AllUnits->SetVisibility(ESlateVisibility::Visible);
 	else
 		AllUnits->SetVisibility(ESlateVisibility::Hidden);
-}
-
-void UGameplayView::OnBuildButtonClick()
-{
-	GameplayUI->SetVisibility(ESlateVisibility::Hidden);
-	BuildUI->SetVisibility(ESlateVisibility::Visible);
-}
-
-void UGameplayView::OnBackButtonClick()
-{
-	GameplayUI->SetVisibility(ESlateVisibility::Visible);
-	BuildUI->SetVisibility(ESlateVisibility::Hidden);
-}
-
-void UGameplayView::OnCancelBuilding()
-{
-
-	SetBuildingState(false);
-}
-
-void UGameplayView::OnHouseButtonClick()
-{
-	gameMode->GameManager->ToBuild = EBuildingType::House;
-	SetBuildingState(true);
-}
-void UGameplayView::OnWoodMillButtonClick()
-{
-	gameMode->GameManager->ToBuild = EBuildingType::WoodMill;
-	SetBuildingState(true);
-}
-void UGameplayView::OnTowerButtonClick()
-{
-	gameMode->GameManager->ToBuild = EBuildingType::Tower;
-	SetBuildingState(true);
 }
 void UGameplayView::SetBuildingState(bool state)
 {
@@ -87,6 +56,51 @@ void UGameplayView::RefreshResourcesUI()
 	WoodAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->WoodAmount)));
 	StoneAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->StoneAmount)));
 }
+#pragma endregion
 
+#pragma region Callbacks
+void UGameplayView::OnBuildButtonClick()
+{
+	GameplayUI->SetVisibility(ESlateVisibility::Hidden);
+	BuildUI->SetVisibility(ESlateVisibility::Visible);
+}
+void UGameplayView::OnBackButtonClick()
+{
+	GameplayUI->SetVisibility(ESlateVisibility::Visible);
+	BuildUI->SetVisibility(ESlateVisibility::Hidden);
+}
+void UGameplayView::OnCancelBuilding()
+{
+
+	SetBuildingState(false);
+}
+void UGameplayView::OnHouseButtonClick()
+{
+	gameMode->GameManager->ToBuild = EBuildingType::House;
+	SetBuildingState(true);
+}
+void UGameplayView::OnWoodMillButtonClick()
+{
+	gameMode->GameManager->ToBuild = EBuildingType::WoodMill;
+	SetBuildingState(true);
+}
+void UGameplayView::OnTowerButtonClick()
+{
+	gameMode->GameManager->ToBuild = EBuildingType::Tower;
+	SetBuildingState(true);
+}
+void UGameplayView::OnOpenResourcs()
+{
+	Resources->SetVisibility(ESlateVisibility::Visible);
+	OpenResources->SetVisibility(ESlateVisibility::Hidden);
+}
+void UGameplayView::OnHideResources()
+{
+	OpenResources->SetVisibility(ESlateVisibility::Visible);
+	Resources->SetVisibility(ESlateVisibility::Hidden);
+}
+
+
+#pragma endregion
 
 

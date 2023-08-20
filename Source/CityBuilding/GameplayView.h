@@ -24,12 +24,15 @@ public:
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* GameplayUI;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* BuildUI;
 	UPROPERTY(meta = (BindWidget)) UPanelWidget* Building;
+	UPROPERTY(meta = (BindWidget)) UPanelWidget* Resources;
 	UPROPERTY(meta = (BindWidget)) UButton* BuildButton;
 	UPROPERTY(meta = (BindWidget)) UButton* BackButton;
 	UPROPERTY(meta = (BindWidget)) UButton* CancelBuilding;
 	UPROPERTY(meta = (BindWidget)) UButton* HouseButton;
 	UPROPERTY(meta = (BindWidget)) UButton* TowerButton;
 	UPROPERTY(meta = (BindWidget)) UButton* WoodMillButton;
+	UPROPERTY(meta = (BindWidget)) UButton* OpenResources;
+	UPROPERTY(meta = (BindWidget)) UButton* HideResources;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* WoodAmount;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* RawWoodAmount;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* StoneAmount;
@@ -40,6 +43,8 @@ public:
 	UFUNCTION()	void OnHouseButtonClick();
 	UFUNCTION() void OnTowerButtonClick();
 	UFUNCTION() void OnWoodMillButtonClick();
+	UFUNCTION() void OnOpenResourcs();
+	UFUNCTION() void OnHideResources();
 #pragma endregion
 
 #pragma region Public Functions
