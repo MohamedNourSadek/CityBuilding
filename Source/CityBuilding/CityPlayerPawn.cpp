@@ -133,6 +133,9 @@ void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
 		myController->SetMouseLocation(screenSize.X / 2.0, screenSize.Y / 2.0);
 	}
 }
+
+AActor* actorUnderMouse;
+
 void ACityPlayerPawn::HandleBuildingMode()
 {
 	if(gameMode->GameManager->InBuildingMode)
@@ -145,7 +148,6 @@ void ACityPlayerPawn::HandleBuildingMode()
 		{
 			if (hit.GetActor()->Tags.Contains("Grid"))
 			{
-				
 				gridElementSelected = hit.GetActor();
 				gameMode->GameManager->HighLightObject->SetActorLocation(hit.GetActor()->GetActorLocation());
 				gameMode->GameManager->HighLightObject->SetActorRotation(hit.GetActor()->GetActorRotation());
@@ -170,6 +172,38 @@ void ACityPlayerPawn::HandleBuildingMode()
 
 		if (hit.bBlockingHit && IsValid(hit.GetActor()) )
 		{
+			if(hit.GetActor() != actorUnderMouse)
+			{
+				if (actorUnderMouse != nullptr)
+				{
+					TArray<UStaticMeshComponent*> Components;
+					hit.GetActor()->GetComponents<UStaticMeshComponent>(Components);
+
+					for (int32 i = 0; i < Components.Num(); i++)
+					{
+						UStaticMeshComponent* staticMesh = Components[i];
+						staticMesh->bRenderCustomDepth = false;
+					}
+				}
+
+				actorUnderMouse = hit.GetActor();
+
+				TArray<UStaticMeshComponent*> Components;
+				actorUnderMouse->GetComponents<UStaticMeshComponent>(Components);
+
+				for (int32 i = 0; i < Components.Num(); i++)
+				{
+					UStaticMeshComponent* staticMesh = Components[i];
+					staticMesh->bRenderCustomDepth = true;
+
+					UE_LOG(LogTemp, Display, TEXT("%i"), staticMesh->bRenderCustomDepth);
+				}
+
+				UE_LOG(LogTemp, Display, TEXT("%s"), *actorUnderMouse->GetActorNameOrLabel());
+				UE_LOG(LogTemp, Display, TEXT("%d"), Components.Num());
+
+			}
+
 			if(hit.GetActor()->Tags.Contains("Building"))
 			{
 				buildingUnderMouse = Cast<ABuilding>(hit.GetActor());

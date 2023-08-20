@@ -25,7 +25,8 @@ void AGameManager::BeginPlay()
 	MainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	gameMode->GameManager = this;
 
-	gameMode->UIManager->GameplayView->RefreshResourcesUI();
+	if(gameMode->UIManager != nullptr)
+		gameMode->UIManager->GameplayView->RefreshResourcesUI();
 }
 void AGameManager::ShowGrid(bool state)
 {
@@ -56,17 +57,13 @@ void AGameManager::SpawnLogs(const FVector& spawnLocation)
 {
 	SpawnPack(LogsPack, spawnLocation);
 }
-
 void AGameManager::SpawnStones(const FVector& spawnLocation)
 {
 	SpawnPack(StonesPack, spawnLocation);
 }
-
 void AGameManager::SpawnPack(TSubclassOf<AActor> object, const FVector& spawnLocation)
 {
 	FVector position = spawnLocation + FVector(0,0,200);
 	GetWorld()->SpawnActor(object,&position);
 }
-
-
 

@@ -31,7 +31,7 @@ public:
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> StonesPack;
 	UPROPERTY(EditAnywhere) AActor* HighLightObject;
 	UPROPERTY(EditAnywhere) AActor* Grid;
-
+	UPROPERTY(EditAnywhere) TArray<FString> InteractableTags;
 #pragma endregion
 
 	EBuildingType ToBuild;
