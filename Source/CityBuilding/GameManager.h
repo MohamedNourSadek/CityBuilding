@@ -27,6 +27,8 @@ public:
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> HouseBuilding;
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> TowerBuilding;
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> WoodMill;
+	UPROPERTY(EditAnywhere) TSubclassOf<AActor> LogsPack;
+	UPROPERTY(EditAnywhere) TSubclassOf<AActor> StonesPack;
 	UPROPERTY(EditAnywhere) AActor* HighLightObject;
 	UPROPERTY(EditAnywhere) AActor* Grid;
 
@@ -39,6 +41,9 @@ public:
 
 	void ShowGrid(bool state);
 	void SpawnBuilding(EBuildingType buildingType);
+	void SpawnLogs(const FVector& spawnLocation);
+	void SpawnStones(const FVector& spawnLocation);
+	void SpawnPack(TSubclassOf<AActor> object,const FVector& spawnLocation); 
 };
 
 

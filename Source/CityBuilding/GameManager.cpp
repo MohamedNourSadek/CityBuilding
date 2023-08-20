@@ -50,4 +50,21 @@ void AGameManager::SpawnBuilding(EBuildingType buildingType)
 	const auto building = GetWorld()->SpawnActor(buildingClass, &HighLightObject->GetTransform());
 	building->SetActorRotation(HighLightObject->GetActorRotation());
 }
+void AGameManager::SpawnLogs(const FVector& spawnLocation)
+{
+	SpawnPack(LogsPack, spawnLocation);
+}
+
+void AGameManager::SpawnStones(const FVector& spawnLocation)
+{
+	SpawnPack(StonesPack, spawnLocation);
+}
+
+void AGameManager::SpawnPack(TSubclassOf<AActor> object, const FVector& spawnLocation)
+{
+	FVector position = spawnLocation + FVector(0,0,200);
+	GetWorld()->SpawnActor(object,&position);
+}
+
+
 

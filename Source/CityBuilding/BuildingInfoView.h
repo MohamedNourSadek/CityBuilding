@@ -26,7 +26,7 @@ public:
 	UPROPERTY(meta = (BindWidget)) UImage* BuildingImage;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* Title;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* Description;
-
+	
 	void SetUI(EBuildingType buildingType);
 
 };

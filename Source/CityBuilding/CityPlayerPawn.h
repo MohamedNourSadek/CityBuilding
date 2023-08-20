@@ -78,7 +78,8 @@ private:
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
 	ABuilding* buildingUnderMouse;
+	AActor* treeUnderMouse;
+	AActor* stoneUnderMouse;
 	AActor* gridElementSelected;
 #pragma endregion
-
 };

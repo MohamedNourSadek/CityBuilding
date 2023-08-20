@@ -135,6 +135,7 @@ void ACityPlayerPawn::ResetMousePositionOnReachingBorder()
 }
 void ACityPlayerPawn::HandleBuildingMode()
 {
+	
 	if(gameMode->GameManager->InBuildingMode)
 	{
 		buildingUnderMouse = nullptr;
@@ -145,6 +146,7 @@ void ACityPlayerPawn::HandleBuildingMode()
 		{
 			if (hit.GetActor()->Tags.Contains("Grid"))
 			{
+				
 				gridElementSelected = hit.GetActor();
 				gameMode->GameManager->HighLightObject->SetActorLocation(hit.GetActor()->GetActorLocation());
 				gameMode->GameManager->HighLightObject->SetActorRotation(hit.GetActor()->GetActorRotation());
@@ -177,6 +179,25 @@ void ACityPlayerPawn::HandleBuildingMode()
 			{
 				buildingUnderMouse = nullptr;
 			}
+
+			if(hit.GetActor()->GetActorNameOrLabel().ToLower().Contains("tree"))
+			{
+				treeUnderMouse = hit.GetActor();
+			}
+			else
+			{
+				treeUnderMouse = nullptr;
+			}
+
+			if(hit.GetActor()->GetActorNameOrLabel().ToLower().Contains("rock"))
+			{
+				stoneUnderMouse = hit.GetActor();
+			}
+			else
+			{
+				stoneUnderMouse = nullptr;
+			}
+				
 		}
 	}
 }
@@ -243,6 +264,21 @@ void ACityPlayerPawn::OnLeftMousePressed()
 	else if(buildingUnderMouse != nullptr && gameMode->UIManager->IsBuildingInfoOpen == false)
 	{
 		gameMode->UIManager->OpenBuildingInfoPopUp(buildingUnderMouse);
+	}
+	else if(gameMode->GameManager->InBuildingMode == false && gameMode->UIManager->IsBuildingInfoOpen == false)
+	{
+		if(treeUnderMouse)
+		{
+			gameMode->GameManager->SpawnLogs(treeUnderMouse->GetActorLocation());
+			treeUnderMouse->Destroy();
+			treeUnderMouse = nullptr;
+		}
+		else if(stoneUnderMouse)
+		{
+			gameMode->GameManager->SpawnStones(stoneUnderMouse->GetActorLocation());
+			stoneUnderMouse->Destroy();
+			stoneUnderMouse = nullptr;
+		}
 	}
 }
 void ACityPlayerPawn::OnMiddleMousePressed()
