@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Building.h"
 #include "GameplayView.h"
+#include "NiagaraSystem.h"
 #include "GameFramework/Actor.h"
 #include "GameManager.generated.h"
 
@@ -29,6 +30,7 @@ public:
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> WoodMill;
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> LogsPack;
 	UPROPERTY(EditAnywhere) TSubclassOf<AActor> StonesPack;
+	UPROPERTY(EditAnywhere) UNiagaraSystem* BoofVFX;
 	UPROPERTY(EditAnywhere) AActor* HighLightObject;
 	UPROPERTY(EditAnywhere) AActor* Grid;
 	UPROPERTY(EditAnywhere) TArray<FString> InteractableTagsOrNames;
@@ -47,7 +49,8 @@ public:
 	void SpawnBuilding(EBuildingType buildingType);
 	void SpawnLogs(const FVector& spawnLocation);
 	void SpawnStones(const FVector& spawnLocation);
-	void SpawnPack(TSubclassOf<AActor> object,const FVector& spawnLocation); 
+	void SpawnPack(TSubclassOf<AActor> object,const FVector& spawnLocation);
+	void SpawnVFXBoof(const FVector& spawnLocation);
 };
 
 
