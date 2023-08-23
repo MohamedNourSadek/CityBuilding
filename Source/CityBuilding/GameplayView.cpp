@@ -62,31 +62,36 @@ void UGameplayView::OnBuildButtonClick()
 {
 	GameplayUI->SetVisibility(ESlateVisibility::Hidden);
 	BuildUI->SetVisibility(ESlateVisibility::Visible);
+	gameMode->AudioManager->PlayClickAudio();
 }
 void UGameplayView::OnBackButtonClick()
 {
 	GameplayUI->SetVisibility(ESlateVisibility::Visible);
 	BuildUI->SetVisibility(ESlateVisibility::Hidden);
+	gameMode->AudioManager->PlayClickAudio();
 }
 void UGameplayView::OnCancelBuilding()
 {
-
 	SetBuildingState(false);
+	gameMode->AudioManager->PlayClickAudio();
 }
 void UGameplayView::OnHouseButtonClick()
 {
 	gameMode->GameManager->ToBuild = EBuildingType::House;
 	SetBuildingState(true);
+	gameMode->AudioManager->PlayClickAudio();
 }
 void UGameplayView::OnWoodMillButtonClick()
 {
 	gameMode->GameManager->ToBuild = EBuildingType::WoodMill;
 	SetBuildingState(true);
+	gameMode->AudioManager->PlayClickAudio();
 }
 void UGameplayView::OnTowerButtonClick()
 {
 	gameMode->GameManager->ToBuild = EBuildingType::Tower;
 	SetBuildingState(true);
+	gameMode->AudioManager->PlayClickAudio();
 }
 void UGameplayView::OnOpenResourcs()
 {
@@ -94,13 +99,14 @@ void UGameplayView::OnOpenResourcs()
 	
 	Resources->SetVisibility(ESlateVisibility::Visible);
 	OpenResources->SetVisibility(ESlateVisibility::Hidden);
+	gameMode->AudioManager->PlayClickAudio();
 }
 void UGameplayView::OnHideResources()
 {
 	OpenResources->SetVisibility(ESlateVisibility::Visible);
 	Resources->SetVisibility(ESlateVisibility::Hidden);
+	gameMode->AudioManager->PlayClickAudio();
 }
-
 
 #pragma endregion
 

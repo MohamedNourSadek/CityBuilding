@@ -28,4 +28,5 @@ void UBuildingInfoView::OnCloseButtonPressed()
 
 	this->RemoveFromParent();
 	this->MarkAsGarbage();
+	gameMode->AudioManager->PlayClickAudio();
 }

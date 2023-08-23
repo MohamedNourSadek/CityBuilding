@@ -11,18 +11,21 @@ ABuilding::ABuilding()
 void ABuilding::BeginPlay()
 {
 	Super::BeginPlay();
-	SetActorScale3D(FVector(1,1,0));
+	SetActorScale3D(FVector(0,0,0));
 }
 
 void ABuilding::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	TotalTimeSinceStartUp+= DeltaTime;
+	
 	if(animatingStartAnim)
 	{
-		SetActorScale3D(GetActorScale3D() + FVector(0,0,DeltaTime*AnimationSpeed));
+		float timeValue = TotalTimeSinceStartUp*AnimationSpeed;
+		float value = curve.ExternalCurve->GetFloatValue(timeValue);
+		SetActorScale3D(FVector(1,1,1)* value);
 
-		if(GetActorScale3D().Z >= 1)
+		if(TotalTimeSinceStartUp >= 1)
 			animatingStartAnim = false;
 	}
 }

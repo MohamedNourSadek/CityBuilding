@@ -5,6 +5,7 @@
 #include "GameplayView.h"
 #include "NiagaraSystem.h"
 #include "GameFramework/Actor.h"
+#include "Sound/SoundCue.h"
 #include "GameManager.generated.h"
 
 class ACityPlayerPawn;
@@ -34,7 +35,8 @@ public:
 	UPROPERTY(EditAnywhere) AActor* HighLightObject;
 	UPROPERTY(EditAnywhere) AActor* Grid;
 	UPROPERTY(EditAnywhere) TArray<FString> InteractableTagsOrNames;
-#pragma endregion
+	UPROPERTY(EditAnywhere) USoundBase* ClickAudio;
+	#pragma endregion
 
 	EBuildingType ToBuild;
 	ACityPlayerPawn* MainPlayer;

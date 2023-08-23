@@ -30,7 +30,8 @@ public:
 
 	UPROPERTY(EditAnywhere) TEnumAsByte<EBuildingType> BuildingType;
 	UPROPERTY(EditAnywhere) float AnimationSpeed = 2;
-	
+	UPROPERTY(EditAnywhere) FRuntimeFloatCurve curve;
+	UPROPERTY(EditAnywhere) float TotalTimeSinceStartUp = 0;
 private:
 	bool animatingStartAnim = true;
 };
