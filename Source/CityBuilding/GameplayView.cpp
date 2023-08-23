@@ -22,7 +22,6 @@ void UGameplayView::NativeConstruct()
 	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	gameMode->UIManager->GameplayView = this;
 
-	RefreshResourcesUI();
 }
 
 
@@ -91,6 +90,8 @@ void UGameplayView::OnTowerButtonClick()
 }
 void UGameplayView::OnOpenResourcs()
 {
+	RefreshResourcesUI();
+	
 	Resources->SetVisibility(ESlateVisibility::Visible);
 	OpenResources->SetVisibility(ESlateVisibility::Hidden);
 }

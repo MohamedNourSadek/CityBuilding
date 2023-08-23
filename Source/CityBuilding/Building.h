@@ -28,7 +28,10 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-	TEnumAsByte<EBuildingType> BuildingType;
+	UPROPERTY(EditAnywhere) TEnumAsByte<EBuildingType> BuildingType;
+	UPROPERTY(EditAnywhere) float AnimationSpeed = 2;
+	
+private:
+	bool animatingStartAnim = true;
 };
 

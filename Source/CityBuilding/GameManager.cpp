@@ -8,8 +8,7 @@
 #include "GameplayView.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
-#include "..\..\..\..\..\..\Programs\UE_5.2\Engine\Plugins\FX\Niagara\Source\Niagara\Public\NiagaraFunctionLibrary.h"
-
+#include "NiagaraFunctionLibrary.h"
 
 AGameManager::AGameManager()
 {
@@ -50,7 +49,6 @@ void AGameManager::SpawnBuilding(EBuildingType buildingType)
 
 	const auto building = GetWorld()->SpawnActor(buildingClass, &HighLightObject->GetTransform());
 	building->SetActorRotation(HighLightObject->GetActorRotation());
-	SpawnVFXBoof(HighLightObject->GetActorLocation());
 }
 void AGameManager::SpawnLogs(const FVector& spawnLocation)
 {
@@ -63,9 +61,19 @@ void AGameManager::SpawnStones(const FVector& spawnLocation)
 void AGameManager::SpawnPack(TSubclassOf<AActor> object, const FVector& spawnLocation)
 {
 	FVector position = spawnLocation + FVector(0,0,200);
-	GetWorld()->SpawnActor(object,&position);
+	FTimerHandle UnusedHandle;
+	FTimerDelegate timerDel;
+	
 	SpawnVFXBoof(spawnLocation);
+
+	timerDel.BindUFunction(this, FName("SpawnObject"), object, position);
+	GetWorldTimerManager().SetTimer(UnusedHandle,timerDel , 0.5, false);
 }
+void AGameManager::SpawnObject(TSubclassOf<AActor> gameObject, FVector& position)
+{
+	GetWorld()->SpawnActor(gameObject, &position);
+}
+
 void AGameManager::SpawnVFXBoof(const FVector& spawnLocation)
 {
 	UNiagaraFunctionLibrary::SpawnSystemAttached(

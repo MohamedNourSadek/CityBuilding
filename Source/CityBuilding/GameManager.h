@@ -51,6 +51,7 @@ public:
 	void SpawnStones(const FVector& spawnLocation);
 	void SpawnPack(TSubclassOf<AActor> object,const FVector& spawnLocation);
 	void SpawnVFXBoof(const FVector& spawnLocation);
+	UFUNCTION() void SpawnObject(TSubclassOf<AActor> objectClass, FVector& position);
 };
 
 
