@@ -6,6 +6,7 @@
 #include "CityBuildingGameModeBase.h"
 #include "CityPlayerPawn.h"
 #include "GameplayView.h"
+#include "KismetAnimationLibrary.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
@@ -14,6 +15,7 @@ AGameManager::AGameManager()
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
+
 void AGameManager::Tick(float DeltaTime)
 {
 }

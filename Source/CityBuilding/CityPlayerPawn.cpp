@@ -34,7 +34,7 @@ void ACityPlayerPawn::Initialize()
 	mySprinComponent = Cast<USpringArmComponent>(GetComponentByClass(USpringArmComponent::StaticClass()));
 	myController = Cast<APlayerController>(GetController());
 	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-
+	cameraComponent = GetComponentByClass<UCameraComponent>();
 	ShowMouse(true);
 }
 void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent)
@@ -175,8 +175,10 @@ void ACityPlayerPawn::HandleObjectsDetection()
 
 				actorUnderMouse = hit.GetActor();
 
-				if(IsOneOfTheInteractbleNamesOrTags(actorUnderMouse))
+				if (IsOneOfTheInteractbleNamesOrTags(actorUnderMouse))
+				{
 					SetObjectOutLine(actorUnderMouse, true);
+				}
 			}
 
 			if(hit.GetActor()->Tags.Contains("Building"))
@@ -231,7 +233,6 @@ void ACityPlayerPawn::HandleObjectsDetection()
 		}
 	}
 }
-
 bool ACityPlayerPawn::IsOneOfTheInteractbleNamesOrTags(AActor* actor)
 {
 	bool IsOneOfThem = false;
@@ -350,6 +351,10 @@ void ACityPlayerPawn::OnLeftMousePressed()
 			stoneUnderMouse->Destroy();
 			gameMode->GameManager->StoneAmount ++;
 			gameMode->UIManager->GameplayView->RefreshResourcesUI();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT(" Name is :%s"), *actorUnderMouse->GetActorNameOrLabel());
 		}
 	}
 }

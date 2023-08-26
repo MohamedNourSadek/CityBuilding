@@ -1,10 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/Actor.h"
 #include "Building.generated.h"
+
+class ACityPlayerPawn;
 
 UENUM()
 enum EBuildingType
@@ -28,11 +29,15 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere) UChildActorComponent* BuildingOptionsActor;
 	UPROPERTY(EditAnywhere) TEnumAsByte<EBuildingType> BuildingType;
 	UPROPERTY(EditAnywhere) float AnimationSpeed = 2;
 	UPROPERTY(EditAnywhere) FRuntimeFloatCurve curve;
 	UPROPERTY(EditAnywhere) float TotalTimeSinceStartUp = 0;
+
 private:
 	bool animatingStartAnim = true;
+	ACityPlayerPawn* mainPlayer;
+	UChildActorComponent* buildingOptions;
 };
 

@@ -6,6 +6,7 @@
 #include "Building.h"
 #include "BuildingInfoView.h"
 #include "CityBuildingGameModeBase.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "CityPlayerPawn.generated.h"
@@ -35,6 +36,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") float MovementSpeed = 1;
 	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") float ZoomSpeed = 1;
 	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") float RotationSpeed = 1;
+	UPROPERTY(EditAnywhere, Category = "Movement Paremeters") UCameraComponent* cameraComponent;
 #pragma endregion
 
 #pragma region Setup Functions
@@ -82,7 +84,7 @@ private:
 
 	ABuilding* buildingUnderMouse;
 
-	AActor* actorUnderMouse;
+	UPROPERTY(VisibleAnywhere) AActor* actorUnderMouse;
 	AActor* treeUnderMouse;
 	AActor* rawStoneUnderMouse;
 	AActor* logUnderMouse;
