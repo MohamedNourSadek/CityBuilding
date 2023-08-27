@@ -28,7 +28,7 @@ void ABuilding::Tick(float DeltaTime)
 	if(animatingStartAnim)
 	{
 		float timeValue = TotalTimeSinceStartUp*AnimationSpeed;
-		float value = curve.ExternalCurve->GetFloatValue(timeValue);
+		float value = Curve.ExternalCurve->GetFloatValue(timeValue);
 		SetActorScale3D(FVector(1,1,1)* value);
 
 		if(TotalTimeSinceStartUp >= 1)

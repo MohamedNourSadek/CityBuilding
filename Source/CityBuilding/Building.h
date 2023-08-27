@@ -31,7 +31,7 @@ public:
 	UPROPERTY(EditAnywhere) UChildActorComponent* BuildingOptionsActor;
 	UPROPERTY(EditAnywhere) TEnumAsByte<EBuildingType> BuildingType;
 	UPROPERTY(EditAnywhere) float AnimationSpeed = 2;
-	UPROPERTY(EditAnywhere) FRuntimeFloatCurve curve;
+	UPROPERTY(EditAnywhere) FRuntimeFloatCurve Curve;
 	UPROPERTY(EditAnywhere) float TotalTimeSinceStartUp = 0;
 	UPROPERTY(EditAnywhere) float BuildingHeight = 50;
 private:

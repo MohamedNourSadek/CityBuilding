@@ -21,8 +21,6 @@ void AUIManager::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
-
-
 void AUIManager::InitializeUI()
 {
 	Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()))->UIManager = this;

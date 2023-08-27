@@ -5,9 +5,6 @@
 
 #include "CityBuildingGameModeBase.h"
 #include "CityPlayerPawn.h"
-#include "GameplayView.h"
-#include "KismetAnimationLibrary.h"
-#include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -32,8 +29,8 @@ void AGameManager::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	MainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	ACityBuildingGameModeBase* gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	gameMode->GameManager = this;
 }
 void AGameManager::ShowGrid(bool state)
@@ -44,6 +41,9 @@ void AGameManager::ShowGrid(bool state)
 
 	for(int i =0; i < actors.Num(); i++)
 	{
+		if(actors[i] == nullptr)
+			continue;
+
 		actors[i]->SetActorHiddenInGame(!state);
 	}
 }

@@ -13,7 +13,6 @@ void UBuildingInfoView::NativeConstruct()
 
 	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	CloseButton->OnClicked.AddDynamic(this, &UBuildingInfoView::OnCloseButtonPressed);
-
 }
 void UBuildingInfoView::SetUI(EBuildingType buildingType)
 {
@@ -23,10 +22,12 @@ void UBuildingInfoView::SetUI(EBuildingType buildingType)
 }
 void UBuildingInfoView::OnCloseButtonPressed()
 {
-	gameMode->UIManager->GameplayView->SetAllVisibility(true);
-	gameMode->UIManager->IsBuildingInfoOpen = false;
-
-	this->RemoveFromParent();
-	this->MarkAsGarbage();
-	gameMode->AudioManager->PlayClickAudio();
+	if(gameMode != nullptr)
+	{
+		gameMode->UIManager->GameplayView->SetAllVisibility(true);
+		gameMode->UIManager->IsBuildingInfoOpen = false;
+		this->RemoveFromParent();
+		this->MarkAsGarbage();
+		gameMode->AudioManager->PlayClickAudio();
+	}
 }

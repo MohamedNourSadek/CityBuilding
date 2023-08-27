@@ -75,17 +75,15 @@ public:
 
 #pragma region Private Variables 
 private:
+	UPROPERTY(VisibleAnywhere) ABuilding* buildingUnderMouse;
+	UPROPERTY(VisibleAnywhere) ABuilding* lastPressedBuilding;
+	UPROPERTY(VisibleAnywhere) AActor* actorUnderMouse;
 	ACityBuildingGameModeBase* gameMode;
 	APlayerController* myController;
 	USpringArmComponent* mySprinComponent;
 	FVector2D movementInput;
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
-
-	UPROPERTY(VisibleAnywhere) ABuilding* buildingUnderMouse;
-	UPROPERTY(VisibleAnywhere) ABuilding* lastPressedBuilding;
-
-	UPROPERTY(VisibleAnywhere) AActor* actorUnderMouse;
 	AActor* treeUnderMouse;
 	AActor* rawStoneUnderMouse;
 	AActor* logUnderMouse;
