@@ -321,6 +321,7 @@ void ACityPlayerPawn::OnLeftMousePressed()
 		{
 			gameMode->UIManager->OpenBuildingInfoPopUp(lastPressedBuilding);
 			gameMode->GameManager->MoveBuildingOptions(nullptr);
+			gameMode->AudioManager->PlayClickAudio();
 		}
 		else if(actorUnderMouse->GetActorNameOrLabel().ToLower().Contains("rotate"))
 		{
