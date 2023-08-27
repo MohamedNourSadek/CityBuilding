@@ -28,16 +28,14 @@ protected:
 
 public:	
 	virtual void Tick(float DeltaTime) override;
-
 	UPROPERTY(EditAnywhere) UChildActorComponent* BuildingOptionsActor;
 	UPROPERTY(EditAnywhere) TEnumAsByte<EBuildingType> BuildingType;
 	UPROPERTY(EditAnywhere) float AnimationSpeed = 2;
 	UPROPERTY(EditAnywhere) FRuntimeFloatCurve curve;
 	UPROPERTY(EditAnywhere) float TotalTimeSinceStartUp = 0;
-
+	UPROPERTY(EditAnywhere) float BuildingHeight = 50;
 private:
 	bool animatingStartAnim = true;
 	ACityPlayerPawn* mainPlayer;
-	UChildActorComponent* buildingOptions;
 };
 

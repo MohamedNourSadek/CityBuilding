@@ -82,7 +82,8 @@ private:
 	bool middleMouseInput;
 	FVector2D lastKnownMousePosition;
 
-	ABuilding* buildingUnderMouse;
+	UPROPERTY(VisibleAnywhere) ABuilding* buildingUnderMouse;
+	UPROPERTY(VisibleAnywhere) ABuilding* lastPressedBuilding;
 
 	UPROPERTY(VisibleAnywhere) AActor* actorUnderMouse;
 	AActor* treeUnderMouse;

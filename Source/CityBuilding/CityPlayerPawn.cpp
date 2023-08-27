@@ -315,6 +315,27 @@ void ACityPlayerPawn::OnMouseY(float value)
 }
 void ACityPlayerPawn::OnLeftMousePressed()
 {
+	if(lastPressedBuilding != nullptr)
+	{
+		if(actorUnderMouse->GetActorNameOrLabel().ToLower().Contains("info"))
+		{
+			gameMode->UIManager->OpenBuildingInfoPopUp(lastPressedBuilding);
+			gameMode->GameManager->MoveBuildingOptions(nullptr);
+		}
+		else if(actorUnderMouse->GetActorNameOrLabel().ToLower().Contains("rotate"))
+		{
+			FRotator currentRotation = lastPressedBuilding->GetActorRotation();
+			FRotator nextRotation = currentRotation + FRotator(0,90,0);
+			lastPressedBuilding->SetActorRotation(nextRotation);
+			gameMode->AudioManager->PlayClickAudio();
+		}
+		else if(lastPressedBuilding != buildingUnderMouse)
+		{
+			gameMode->GameManager->MoveBuildingOptions(nullptr);
+		}
+	}
+
+	
 	if(gameMode->GameManager->InBuildingMode && gameMode->GameManager->CanBuild)
 	{
 		gameMode->GameManager->SpawnBuilding(gameMode->GameManager->ToBuild);
@@ -324,7 +345,9 @@ void ACityPlayerPawn::OnLeftMousePressed()
 	}
 	else if(buildingUnderMouse != nullptr && gameMode->UIManager->IsBuildingInfoOpen == false)
 	{
-		gameMode->UIManager->OpenBuildingInfoPopUp(buildingUnderMouse);
+		lastPressedBuilding = buildingUnderMouse;
+		gameMode->GameManager->MoveBuildingOptions(buildingUnderMouse);
+		gameMode->AudioManager->PlayClickAudio();
 	}
 	else if(gameMode->GameManager->InBuildingMode == false && gameMode->UIManager->IsBuildingInfoOpen == false)
 	{

@@ -36,6 +36,7 @@ public:
 	UPROPERTY(EditAnywhere) AActor* Grid;
 	UPROPERTY(EditAnywhere) TArray<FString> InteractableTagsOrNames;
 	UPROPERTY(EditAnywhere) USoundBase* ClickAudio;
+	UPROPERTY(EditAnywhere) AActor* BuildingOptionsObject; 
 	#pragma endregion
 
 	EBuildingType ToBuild;
@@ -53,6 +54,7 @@ public:
 	void SpawnStones(const FVector& spawnLocation);
 	void SpawnPack(TSubclassOf<AActor> object,const FVector& spawnLocation);
 	void SpawnVFXBoof(const FVector& spawnLocation);
+	void MoveBuildingOptions(ABuilding* building);
 	UFUNCTION() void SpawnObject(TSubclassOf<AActor> objectClass, FVector& position);
 };
 

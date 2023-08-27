@@ -3,6 +3,7 @@
 
 #include "Building.h"
 #include "CityPlayerPawn.h"
+#include "GameManager.h"
 #include "KismetAnimationLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -18,9 +19,7 @@ void ABuilding::BeginPlay()
 	SetActorScale3D(FVector(0,0,0));
 
 	mainPlayer = Cast<ACityPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	buildingOptions = GetComponentByClass<UChildActorComponent>();
 }
-
 void ABuilding::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -35,14 +34,4 @@ void ABuilding::Tick(float DeltaTime)
 		if(TotalTimeSinceStartUp >= 1)
 			animatingStartAnim = false;
 	}
-
-	if(mainPlayer != nullptr)
-	{
-		FRotator rotator = UKismetMathLibrary::FindLookAtRotation(buildingOptions->GetComponentLocation(),
-			mainPlayer->cameraComponent->GetComponentLocation());
-
-		buildingOptions->SetWorldRotation(rotator);
-	}
-
 }
-

@@ -10,6 +10,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 
 AGameManager::AGameManager()
 {
@@ -18,6 +19,14 @@ AGameManager::AGameManager()
 
 void AGameManager::Tick(float DeltaTime)
 {
+	if(MainPlayer != nullptr && BuildingOptionsObject != nullptr)
+	{
+		FRotator rotator = UKismetMathLibrary::FindLookAtRotation(
+			BuildingOptionsObject->GetActorLocation(),
+			MainPlayer->cameraComponent->GetComponentLocation());
+
+		BuildingOptionsObject->SetActorRotation(rotator);
+	}
 }
 void AGameManager::BeginPlay()
 {
@@ -75,7 +84,6 @@ void AGameManager::SpawnObject(TSubclassOf<AActor> gameObject, FVector& position
 {
 	GetWorld()->SpawnActor(gameObject, &position);
 }
-
 void AGameManager::SpawnVFXBoof(const FVector& spawnLocation)
 {
 	UNiagaraFunctionLibrary::SpawnSystemAttached(
@@ -85,5 +93,12 @@ void AGameManager::SpawnVFXBoof(const FVector& spawnLocation)
 		spawnLocation, this->GetActorRotation(),
 		EAttachLocation::SnapToTarget,
 		true);
+}
+void AGameManager::MoveBuildingOptions(ABuilding* building)
+{
+	if(building == nullptr)
+		BuildingOptionsObject->SetActorLocation(FVector(0,0,5000));
+	else
+		BuildingOptionsObject->SetActorLocation(building->GetActorLocation() + FVector(0,0, 830 + building->BuildingHeight));
 }
 

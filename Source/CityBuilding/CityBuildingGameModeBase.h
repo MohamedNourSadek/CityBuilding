@@ -19,6 +19,4 @@ public:
 	AGameManager* GameManager;
 	AUIManager* UIManager;
 	AAudioManager* AudioManager;
-
-
 };
