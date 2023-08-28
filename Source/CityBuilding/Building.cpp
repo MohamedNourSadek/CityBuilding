@@ -3,10 +3,7 @@
 
 #include "Building.h"
 #include "CityPlayerPawn.h"
-#include "GameManager.h"
-#include "KismetAnimationLibrary.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
 
 ABuilding::ABuilding()
 {

@@ -20,7 +20,6 @@ class CITYBUILDING_API UBuildingInfoView : public UUserWidget
 
 	ACityBuildingGameModeBase* gameMode;
 
-
 public:
 	UPROPERTY(meta = (BindWidget)) UButton* CloseButton;
 	UPROPERTY(meta = (BindWidget)) UImage* BuildingImage;
@@ -28,5 +27,4 @@ public:
 	UPROPERTY(meta = (BindWidget)) UTextBlock* Description;
 	
 	void SetUI(EBuildingType buildingType);
-
 };

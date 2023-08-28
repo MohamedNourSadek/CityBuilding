@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Building.h"
-#include "BuildingInfoView.h"
 #include "CityBuildingGameModeBase.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Pawn.h"
@@ -81,13 +80,13 @@ private:
 	ACityBuildingGameModeBase* gameMode;
 	APlayerController* myController;
 	USpringArmComponent* mySprinComponent;
-	FVector2D movementInput;
-	bool middleMouseInput;
-	FVector2D lastKnownMousePosition;
 	AActor* treeUnderMouse;
 	AActor* rawStoneUnderMouse;
 	AActor* logUnderMouse;
 	AActor* stoneUnderMouse;
 	AActor* gridElementSelected;
+	FVector2D movementInput;
+	FVector2D lastKnownMousePosition;
+	bool middleMouseInput;
 #pragma endregion
 };

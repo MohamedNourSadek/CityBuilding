@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/WidgetComponent.h"
 #include "GameFramework/Actor.h"
 #include "Building.generated.h"
 
@@ -36,6 +35,7 @@ public:
 	UPROPERTY(EditAnywhere) float BuildingHeight = 50;
 private:
 	bool animatingStartAnim = true;
+
 	ACityPlayerPawn* mainPlayer;
 };
 
