@@ -37,4 +37,3 @@ void AUIManager::OpenBuildingInfoPopUp(ABuilding* building)
 	GameplayView->SetAllVisibility(false);
 	IsBuildingInfoOpen = true;
 }
-
