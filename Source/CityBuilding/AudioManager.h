@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Sound/AmbientSound.h"
 #include "AudioManager.generated.h"
 
 UCLASS()
@@ -20,7 +21,18 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere) USoundBase* ClickAudio;
 
+	UPROPERTY(EditAnywhere) USoundBase* ClickAudio;
+	UPROPERTY(EditAnywhere) TArray<USoundBase*> MusicFiles;
+	UPROPERTY(EditAnywhere) AAmbientSound* MusicAudioPlayer;
+	
+
+private:
+	int currentlyPlayed = 0;
+
+public:
 	void PlayClickAudio();
+
+	UFUNCTION()
+	void PlayARandomAmbientMusic();
 };
