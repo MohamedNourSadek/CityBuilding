@@ -29,6 +29,7 @@ void AAudioManager::Tick(float DeltaTime)
 
 }
 
+
 void AAudioManager::PlayClickAudio()
 {
 	UGameplayStatics::PlaySoundAtLocation(
@@ -38,10 +39,8 @@ void AAudioManager::PlayClickAudio()
 	GetActorRotation(),
 	1,1,0);
 }
-
 void AAudioManager::PlayARandomAmbientMusic()
 {
-	
 	int newClip = 0;
 
 	while(newClip == currentlyPlayed)

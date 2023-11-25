@@ -47,6 +47,7 @@ public:
 	int RawWoodAmount = 0;
 	int WoodAmount = 0;
 	int StoneAmount = 0;
+	int FoodAmount = 0;
 	
 	void ShowGrid(bool state);
 	void SpawnBuilding(EBuildingType buildingType);

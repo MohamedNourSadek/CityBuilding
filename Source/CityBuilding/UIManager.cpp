@@ -37,3 +37,26 @@ void AUIManager::OpenBuildingInfoPopUp(ABuilding* building)
 	GameplayView->SetAllVisibility(false);
 	IsBuildingInfoOpen = true;
 }
+void AUIManager::ShowHoverUI(bool state)
+{
+	if(state)
+	{
+		if(ResourcesHoverView != nullptr)
+		{
+			ResourcesHoverView->SetVisibility(ESlateVisibility::Visible);
+		}
+		else
+		{
+			ResourcesHoverView = CreateWidget<UResourceHover>(GetGameInstance(), ResourceHoverClass);
+			ResourcesHoverView->AddToViewport();
+		}
+	}
+	else
+	{
+		if(ResourcesHoverView != nullptr)
+		{
+			ResourcesHoverView->SetVisibility (ESlateVisibility::Hidden);
+		}
+	}
+}
+

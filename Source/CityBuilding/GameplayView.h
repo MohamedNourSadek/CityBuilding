@@ -36,6 +36,7 @@ public:
 	UPROPERTY(meta = (BindWidget)) UTextBlock* WoodAmount;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* RawWoodAmount;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* StoneAmount;
+	UPROPERTY(meta = (BindWidget)) UTextBlock* FoodAmount;
 	
 	UFUNCTION() void OnBuildButtonClick();
 	UFUNCTION()	void OnBackButtonClick();

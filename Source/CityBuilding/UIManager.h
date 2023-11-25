@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Building.h"
+#include "ResourceHover.h"
 #include "GameFramework/Actor.h"
 #include "UIManager.generated.h"
 
@@ -30,11 +31,13 @@ private:
 #pragma region Public Functions
 public:
 	void OpenBuildingInfoPopUp(ABuilding* building);
+	void ShowHoverUI(bool state);
 #pragma endregion 
 
 #pragma region UI Classes
 	UPROPERTY(EditAnywhere)	TSubclassOf<class UGameplayView> GameplayViewClass;
 	UPROPERTY(EditAnywhere) TSubclassOf<class UBuildingInfoView> buildingPopUpClass;
+	UPROPERTY(EditAnywhere) TSubclassOf<class UResourceHover> ResourceHoverClass;
 #pragma endregion 
 
 #pragma region Global UI References
@@ -44,6 +47,7 @@ public:
 	UPROPERTY(EditAnywhere) TMap<TEnumAsByte<EBuildingType>, FString> BuildingDes;
 
 	UGameplayView* GameplayView;
+	UResourceHover* ResourcesHoverView = nullptr;
 	bool IsBuildingInfoOpen = false;
 #pragma endregion
 

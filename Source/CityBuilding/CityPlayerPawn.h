@@ -84,6 +84,7 @@ private:
 	AActor* rawStoneUnderMouse;
 	AActor* logUnderMouse;
 	AActor* stoneUnderMouse;
+	AActor* foodUnderMouse;
 	AActor* gridElementSelected;
 	FVector2D movementInput;
 	FVector2D lastKnownMousePosition;

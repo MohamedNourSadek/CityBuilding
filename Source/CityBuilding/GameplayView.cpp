@@ -54,6 +54,7 @@ void UGameplayView::RefreshResourcesUI()
 	RawWoodAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->RawWoodAmount)));
 	WoodAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->WoodAmount)));
 	StoneAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->StoneAmount)));
+	FoodAmount->SetText(FText::FromString(FString::FromInt(gameMode->GameManager->FoodAmount)));
 }
 #pragma endregion
 

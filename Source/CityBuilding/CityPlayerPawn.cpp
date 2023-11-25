@@ -45,8 +45,8 @@ void ACityPlayerPawn::AssignInputCallBacks(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis("MouseX", this, &ACityPlayerPawn::OnMouseX);
 	PlayerInputComponent->BindAxis("MouseY", this, &ACityPlayerPawn::OnMouseY);
 	PlayerInputComponent->BindAction("LeftMouse", IE_Pressed, this, &ACityPlayerPawn::OnLeftMousePressed);
-	PlayerInputComponent->BindAction("MiddleMouse", IE_Pressed, this, &ACityPlayerPawn::OnMiddleMousePressed);
-	PlayerInputComponent->BindAction("MiddleMouse", IE_Released, this, &ACityPlayerPawn::OnMiddleMouseReleased);
+	PlayerInputComponent->BindAction("Pan", IE_Pressed, this, &ACityPlayerPawn::OnMiddleMousePressed);
+	PlayerInputComponent->BindAction("Pan", IE_Released, this, &ACityPlayerPawn::OnMiddleMouseReleased);
 	PlayerInputComponent->BindAction("Cancel", IE_Pressed, this, &ACityPlayerPawn::OnCancelPressed);
 }
 #pragma endregion
@@ -178,8 +178,19 @@ void ACityPlayerPawn::HandleObjectsDetection()
 				if (IsOneOfTheInteractbleNamesOrTags(actorUnderMouse))
 				{
 					SetObjectOutLine(actorUnderMouse, true);
+					gameMode->UIManager->ShowHoverUI(true);
 				}
 			}
+
+			if(hit.GetActor()->Tags.Contains("Obstcle"))
+			{
+				gameMode->UIManager->ShowHoverUI(true);
+			}
+			else
+			{
+				gameMode->UIManager->ShowHoverUI(false);
+			}
+
 
 			if(hit.GetActor()->Tags.Contains("Building"))
 			{
@@ -226,10 +237,20 @@ void ACityPlayerPawn::HandleObjectsDetection()
 			{
 				stoneUnderMouse = nullptr;
 			}
+
+			if(hit.GetActor()->GetActorNameOrLabel().ToLower().Contains("food"))
+			{
+				foodUnderMouse = hit.GetActor();
+			}
+			else
+			{
+				foodUnderMouse = nullptr;
+			}
 		}
 		else
 		{
 			SetObjectOutLine(actorUnderMouse, false);
+			gameMode->UIManager->ShowHoverUI(false);
 		}
 	}
 }
@@ -374,6 +395,12 @@ void ACityPlayerPawn::OnLeftMousePressed()
 		{
 			stoneUnderMouse->Destroy();
 			gameMode->GameManager->StoneAmount ++;
+			gameMode->UIManager->GameplayView->RefreshResourcesUI();
+		}
+		else if(foodUnderMouse)
+		{
+			foodUnderMouse->Destroy();
+			gameMode->GameManager->FoodAmount++;
 			gameMode->UIManager->GameplayView->RefreshResourcesUI();
 		}
 		else
