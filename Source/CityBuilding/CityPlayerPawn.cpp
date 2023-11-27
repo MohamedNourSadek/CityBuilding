@@ -178,17 +178,17 @@ void ACityPlayerPawn::HandleObjectsDetection()
 				if (IsOneOfTheInteractbleNamesOrTags(actorUnderMouse))
 				{
 					SetObjectOutLine(actorUnderMouse, true);
-					gameMode->UIManager->ShowHoverUI(true);
+					gameMode->UIManager->ShowHoverUI(true, actorUnderMouse);
 				}
 			}
 
 			if(hit.GetActor()->Tags.Contains("Obstcle"))
 			{
-				gameMode->UIManager->ShowHoverUI(true);
+				gameMode->UIManager->ShowHoverUI(true, actorUnderMouse);
 			}
 			else
 			{
-				gameMode->UIManager->ShowHoverUI(false);
+				gameMode->UIManager->ShowHoverUI(false, nullptr);
 			}
 
 
@@ -250,7 +250,7 @@ void ACityPlayerPawn::HandleObjectsDetection()
 		else
 		{
 			SetObjectOutLine(actorUnderMouse, false);
-			gameMode->UIManager->ShowHoverUI(false);
+			gameMode->UIManager->ShowHoverUI(false, nullptr);
 		}
 	}
 }

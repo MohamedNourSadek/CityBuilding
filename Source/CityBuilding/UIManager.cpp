@@ -5,6 +5,7 @@
 #include "CityBuildingGameModeBase.h"
 #include "GameplayView.h"
 #include "BuildingInfoView.h"
+#include "Obstacle.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -37,10 +38,12 @@ void AUIManager::OpenBuildingInfoPopUp(ABuilding* building)
 	GameplayView->SetAllVisibility(false);
 	IsBuildingInfoOpen = true;
 }
-void AUIManager::ShowHoverUI(bool state)
+void AUIManager::ShowHoverUI(bool state, AActor* actor)
 {
 	if(state)
 	{
+		AObstacle* obstacle = Cast<AObstacle>(actor);;
+
 		if(ResourcesHoverView != nullptr)
 		{
 			ResourcesHoverView->SetVisibility(ESlateVisibility::Visible);
@@ -50,6 +53,9 @@ void AUIManager::ShowHoverUI(bool state)
 			ResourcesHoverView = CreateWidget<UResourceHover>(GetGameInstance(), ResourceHoverClass);
 			ResourcesHoverView->AddToViewport();
 		}
+
+		if(obstacle != nullptr)
+			ResourcesHoverView->SetUIUp(obstacle->Resources);
 	}
 	else
 	{

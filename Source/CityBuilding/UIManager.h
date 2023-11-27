@@ -31,7 +31,7 @@ private:
 #pragma region Public Functions
 public:
 	void OpenBuildingInfoPopUp(ABuilding* building);
-	void ShowHoverUI(bool state);
+	void ShowHoverUI(bool state, AActor* actor);
 #pragma endregion 
 
 #pragma region UI Classes

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ResourceHover.h"
 #include "GameFramework/Actor.h"
 #include "Obstacle.generated.h"
 
@@ -24,4 +25,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+	UPROPERTY(EditAnywhere)
+	TArray<FResource> Resources;
 };
