@@ -176,19 +176,20 @@ void ACityPlayerPawn::HandleObjectsDetection()
 				actorUnderMouse = hit.GetActor();
 
 				if (IsOneOfTheInteractbleNamesOrTags(actorUnderMouse))
-				{
 					SetObjectOutLine(actorUnderMouse, true);
-					gameMode->UIManager->ShowHoverUI(true, actorUnderMouse);
-				}
 			}
 
-			if(hit.GetActor()->Tags.Contains("Obstcle"))
+			if(hit.GetActor()->Tags.Contains("Obstacle"))
 			{
-				gameMode->UIManager->ShowHoverUI(true, actorUnderMouse);
+				if(obstcalUnderMouse != actorUnderMouse)
+					gameMode->UIManager->ShowHoverUI(true, actorUnderMouse);
+
+				obstcalUnderMouse = actorUnderMouse;
 			}
 			else
 			{
 				gameMode->UIManager->ShowHoverUI(false, nullptr);
+				obstcalUnderMouse = nullptr;
 			}
 
 

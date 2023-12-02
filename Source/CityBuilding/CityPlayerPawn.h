@@ -74,9 +74,10 @@ public:
 
 #pragma region Private Variables 
 private:
-	UPROPERTY(VisibleAnywhere) ABuilding* buildingUnderMouse;
-	UPROPERTY(VisibleAnywhere) ABuilding* lastPressedBuilding;
-	UPROPERTY(VisibleAnywhere) AActor* actorUnderMouse;
+	ABuilding* buildingUnderMouse;
+	ABuilding* lastPressedBuilding;
+	AActor* actorUnderMouse;
+	UPROPERTY(VisibleAnywhere) AActor* obstcalUnderMouse;
 	ACityBuildingGameModeBase* gameMode;
 	APlayerController* myController;
 	USpringArmComponent* mySprinComponent;

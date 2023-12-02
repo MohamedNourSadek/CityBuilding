@@ -3,7 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "HoverResourceElement.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/HorizontalBox.h"
+#include "Components/TextBlock.h"
+#include "Components/VerticalBox.h"
 #include "ResourceHover.generated.h"
 
 UENUM()
@@ -50,4 +54,11 @@ class CITYBUILDING_API UResourceHover : public UUserWidget
 
 public:
 	void SetUIUp(const TArray<FResource>& resources);
+
+	UPROPERTY(meta = (BindWidget)) UVerticalBox* ElementsParent;
+	UPROPERTY(meta = (BindWidget)) UHoverResourceElement* ElementPrototype;
+
+
+private:
+	TArray<UHorizontalBox*> elements;
 };
