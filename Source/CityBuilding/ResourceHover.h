@@ -6,9 +6,10 @@
 #include "HoverResourceElement.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/HorizontalBox.h"
-#include "Components/TextBlock.h"
 #include "Components/VerticalBox.h"
 #include "ResourceHover.generated.h"
+
+class ACityBuildingGameModeBase;
 
 UENUM()
 enum EResourceType
@@ -52,6 +53,8 @@ class CITYBUILDING_API UResourceHover : public UUserWidget
 {
 	GENERATED_BODY()
 
+	virtual void NativeConstruct() override;
+
 public:
 	void SetUIUp(const TArray<FResource>& resources);
 
@@ -61,4 +64,5 @@ public:
 
 private:
 	TArray<UHorizontalBox*> elements;
+	ACityBuildingGameModeBase* gameMode;
 };

@@ -7,7 +7,8 @@
 void UHoverResourceElement::SetUpElement(FString elementName, int elementAmount)
 {
 	ElementName->SetText(FText::FromString(elementName));
-	ElementAmount->SetText(FText::FromString(FString::FromInt(elementAmount)));
+
+	ElementAmount->SetText(FText::FromString(FString::FromInt(FMath::Abs(elementAmount))));
 }
 
 

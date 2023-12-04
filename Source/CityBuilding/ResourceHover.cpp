@@ -3,8 +3,17 @@
 
 #include "ResourceHover.h"
 
+#include "CityBuildingGameModeBase.h"
+#include "GameManager.h"
 #include "Components/HorizontalBoxSlot.h"
 #include "Components/VerticalBoxSlot.h"
+#include "Kismet/GameplayStatics.h"
+
+void UResourceHover::NativeConstruct()
+{
+	Super::NativeConstruct();
+	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+}
 
 void UResourceHover::SetUIUp(const TArray<FResource>& resources)
 {
@@ -20,9 +29,25 @@ void UResourceHover::SetUIUp(const TArray<FResource>& resources)
 		const FString elementName = UEnum::GetValueAsString(resource.ResourceType);
 		const auto myNewElement =  NewObject<UHoverResourceElement>(ElementPrototype);
 
+		bool haveResource = gameMode->GameManager->GetResource(resource.ResourceType) >= FMath::Abs(resource.Amount);
+		bool requirement = resource.Amount < 0;
+
 		const auto elementNameText = NewObject<UTextBlock>(ElementPrototype->ElementName);
 		const auto elementAmountText = NewObject<UTextBlock>(ElementPrototype->ElementAmount);
 
+		if (requirement)
+		{
+			if (haveResource)
+			{
+				elementNameText->SetColorAndOpacity(FSlateColor(FColor::Green));
+				elementAmountText->SetColorAndOpacity(FSlateColor(FColor::Green));
+			}
+			else 
+			{
+				elementNameText->SetColorAndOpacity(FSlateColor(FColor::Red));
+				elementAmountText->SetColorAndOpacity(FSlateColor(FColor::Red));
+			}
+		}
 		auto slot1 = myNewElement->AddChildToHorizontalBox(elementAmountText);
 		auto slot2 = myNewElement->AddChildToHorizontalBox(elementNameText);
 

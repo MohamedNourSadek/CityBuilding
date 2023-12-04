@@ -101,4 +101,39 @@ void AGameManager::MoveBuildingOptions(ABuilding* building)
 	else
 		BuildingOptionsObject->SetActorLocation(building->GetActorLocation() + FVector(0,0, 830 + building->BuildingHeight));
 }
+void AGameManager::SetResource(EResourceType resource, int amount)
+{
+	if(ResourcesAvailable.Contains(resource))
+	{
+		ResourcesAvailable[resource] = amount;
+	}
+	else
+	{
+		ResourcesAvailable.Add(resource, amount);
+	}
+}
+void AGameManager::IncreaseResource(EResourceType resource, int incrementAmount)
+{
+	if (ResourcesAvailable.Contains(resource))
+	{
+		ResourcesAvailable[resource] ++;
+	}
+	else
+	{
+		ResourcesAvailable.Add(resource, incrementAmount);
+	}
+}
+int AGameManager::GetResource(EResourceType resource)
+{
+	if (ResourcesAvailable.Contains(resource))
+	{
+		return ResourcesAvailable[resource];
+	}
+	else
+	{
+		ResourcesAvailable.Add(resource, 0);
+		return 0;
+	}
+}
+
 

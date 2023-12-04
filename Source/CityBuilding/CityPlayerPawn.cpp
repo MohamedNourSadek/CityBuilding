@@ -389,19 +389,19 @@ void ACityPlayerPawn::OnLeftMousePressed()
 		else if(logUnderMouse)
 		{
 			logUnderMouse->Destroy();
-			gameMode->GameManager->RawWoodAmount ++;
+			gameMode->GameManager->IncreaseResource(EResourceType::Wood,1);
 			gameMode->UIManager->GameplayView->RefreshResourcesUI();
 		}
 		else if(stoneUnderMouse)
 		{
 			stoneUnderMouse->Destroy();
-			gameMode->GameManager->StoneAmount ++;
+			gameMode->GameManager->IncreaseResource(EResourceType::Stone, 1);
 			gameMode->UIManager->GameplayView->RefreshResourcesUI();
 		}
 		else if(foodUnderMouse)
 		{
 			foodUnderMouse->Destroy();
-			gameMode->GameManager->FoodAmount++;
+			gameMode->GameManager->IncreaseResource(EResourceType::Food, 1);
 			gameMode->UIManager->GameplayView->RefreshResourcesUI();
 		}
 		else

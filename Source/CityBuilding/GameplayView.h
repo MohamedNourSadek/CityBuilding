@@ -34,7 +34,6 @@ public:
 	UPROPERTY(meta = (BindWidget)) UButton* OpenResources;
 	UPROPERTY(meta = (BindWidget)) UButton* HideResources;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* WoodAmount;
-	UPROPERTY(meta = (BindWidget)) UTextBlock* RawWoodAmount;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* StoneAmount;
 	UPROPERTY(meta = (BindWidget)) UTextBlock* FoodAmount;
 	

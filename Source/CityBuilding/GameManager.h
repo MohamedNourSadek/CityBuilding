@@ -2,10 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "Building.h"
-#include "GameplayView.h"
 #include "NiagaraSystem.h"
+#include "ResourceHover.h"
 #include "GameFramework/Actor.h"
-#include "Sound/SoundCue.h"
 #include "GameManager.generated.h"
 
 class ACityPlayerPawn;
@@ -44,11 +43,12 @@ public:
 	bool InBuildingMode = false;
 	bool CanBuild = false;
 
-	int RawWoodAmount = 0;
-	int WoodAmount = 0;
-	int StoneAmount = 0;
-	int FoodAmount = 0;
-	
+	TMap<EResourceType, int> ResourcesAvailable;
+
+
+	void IncreaseResource(EResourceType resource, int incrementAmount);
+	void SetResource(EResourceType resource, int amount);
+	int GetResource(EResourceType resource);
 	void ShowGrid(bool state);
 	void SpawnBuilding(EBuildingType buildingType);
 	void SpawnLogs(const FVector& spawnLocation);
