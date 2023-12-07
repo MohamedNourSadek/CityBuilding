@@ -3,6 +3,7 @@
 #include "Building.h"
 #include "CityBuildingGameModeBase.h"
 #include "GameManager.h"
+#include "Obstacle.h"
 #include "Kismet/GameplayStatics.h"
 
 #pragma region Unreal Delegates
@@ -337,6 +338,7 @@ void ACityPlayerPawn::OnMouseY(float value)
 }
 void ACityPlayerPawn::OnLeftMousePressed()
 {
+	//Handling buildings
 	if(lastPressedBuilding != nullptr)
 	{
 		if(actorUnderMouse->GetActorNameOrLabel().ToLower().Contains("info"))
@@ -404,9 +406,10 @@ void ACityPlayerPawn::OnLeftMousePressed()
 			gameMode->GameManager->IncreaseResource(EResourceType::Food, 1);
 			gameMode->UIManager->GameplayView->RefreshResourcesUI();
 		}
-		else
+		else if(obstcalUnderMouse)
 		{
-			UE_LOG(LogTemp, Warning, TEXT(" Name is :%s"), *actorUnderMouse->GetActorNameOrLabel());
+			AObstacle* obstcle = Cast<AObstacle>(obstcalUnderMouse);
+			obstcle->DestroyIfEnoughResources();
 		}
 	}
 }

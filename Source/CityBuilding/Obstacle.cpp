@@ -3,6 +3,10 @@
 
 #include "Obstacle.h"
 
+#include "CityBuildingGameModeBase.h"
+#include "GameManager.h"
+#include "Kismet/GameplayStatics.h"
+
 // Sets default values
 AObstacle::AObstacle()
 {
@@ -15,13 +19,47 @@ AObstacle::AObstacle()
 void AObstacle::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	gameMode = Cast<ACityBuildingGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 }
 
 // Called every frame
 void AObstacle::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void AObstacle::DestroyIfEnoughResources()
+{
+	bool hasEnoughResources = true;
+
+	for(auto resource : Resources)
+	{
+		if(gameMode->GameManager->HasResource(resource.ResourceType, - resource.Amount) == false)
+		{
+			UE_LOG(LogTemp, Display, TEXT("%s"), *UEnum::GetValueAsString(resource.ResourceType));
+
+			hasEnoughResources = false;
+			break;
+		}
+	}
+
+
+	if(hasEnoughResources)
+	{
+		for(auto resource : Resources)
+		{
+			gameMode->GameManager->IncreaseResource(resource.ResourceType, resource.Amount);
+		}
+
+		Destroy();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Display, TEXT(" Not Enough Resources"));
+	}
+
 
 }
 

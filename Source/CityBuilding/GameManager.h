@@ -49,6 +49,7 @@ public:
 	void IncreaseResource(EResourceType resource, int incrementAmount);
 	void SetResource(EResourceType resource, int amount);
 	int GetResource(EResourceType resource);
+	bool HasResource(EResourceType resource, int amountNeeded);
 	void ShowGrid(bool state);
 	void SpawnBuilding(EBuildingType buildingType);
 	void SpawnLogs(const FVector& spawnLocation);

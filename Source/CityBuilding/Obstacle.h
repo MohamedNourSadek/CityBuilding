@@ -25,7 +25,12 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	ACityBuildingGameModeBase* gameMode;
+
 
 	UPROPERTY(EditAnywhere)
 	TArray<FResource> Resources;
+
+	void DestroyIfEnoughResources();
+
 };

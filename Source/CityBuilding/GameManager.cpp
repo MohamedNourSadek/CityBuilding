@@ -116,7 +116,7 @@ void AGameManager::IncreaseResource(EResourceType resource, int incrementAmount)
 {
 	if (ResourcesAvailable.Contains(resource))
 	{
-		ResourcesAvailable[resource] ++;
+		ResourcesAvailable[resource] += incrementAmount;
 	}
 	else
 	{
@@ -134,6 +134,13 @@ int AGameManager::GetResource(EResourceType resource)
 		ResourcesAvailable.Add(resource, 0);
 		return 0;
 	}
+}
+bool AGameManager::HasResource(EResourceType resource, int amountNeeded)
+{
+	if (ResourcesAvailable[resource] >= amountNeeded)
+		return true;
+	else
+		return false;
 }
 
 
